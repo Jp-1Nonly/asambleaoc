@@ -10,6 +10,8 @@
 
     <a href="{{ route('residentes.index') }}">residentes</a>
 
+    <a href="{{ route('residentes.create') }}">Crear residentes</a>
+
     
 </body>
 </html>

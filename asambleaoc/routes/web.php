@@ -32,4 +32,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/residentes', [ResidentesController::class, 'index'])->name('residentes.index');
 
 
+Route::get('/create-residentes', [ResidentesController::class, 'create'])->name('residentes.create');
+
+
+Route::post('/upload', [ResidentesController::class, 'upload'])->name('excel.upload');
+
 require __DIR__.'/auth.php';

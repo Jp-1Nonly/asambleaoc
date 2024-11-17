@@ -9,5 +9,13 @@ class Residente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'tipo', 'apto', 'coeficiente'];
+    protected $table = 'residentes';
+
+    protected $fillable = [
+        'nombre',
+        'tipo',
+        'apto',
+        'coeficiente',
+        'firma',
+    ];
 }

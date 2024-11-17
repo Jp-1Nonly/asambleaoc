@@ -11,6 +11,7 @@
                 <th>Apto</th>
                 <th>Coeficiente</th>
                 <th>Firma</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,9 @@
                         <button type="button" class="btn btn-primary mt-2" onclick="clearSignature({{ $index }})">Limpiar</button>
                         <button type="button" class="btn btn-success mt-2" onclick="saveSignature({{ $index }})">Guardar</button>
                         <input type="hidden" name="firma[{{ $index }}]" id="firma-{{ $index }}">
+                    </td>
+                    <td>
+                        <a href="{{ route('residentes.firmar', $residente->id) }}" class="btn btn-primary">Firmar</a>
                     </td>
                 </tr>
             @endforeach

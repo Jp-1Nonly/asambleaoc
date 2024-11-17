@@ -39,4 +39,9 @@ Route::get('residentes/estadisticas', [ResidentesController::class, 'estadistica
 
 
 
+Route::get('/residentes/{id}/firmar', [ResidentesController::class, 'showSignatureForm'])->name('residentes.firmar');
+Route::post('/residentes/{id}/firmar', [ResidentesController::class, 'storeSignature'])->name('residentes.guardarFirma');
+Route::post('/residentes/{id}/guardar-firma', [ResidentesController::class, 'guardarFirma'])->name('residentes.guardarFirma');
+
+
 require __DIR__.'/auth.php';

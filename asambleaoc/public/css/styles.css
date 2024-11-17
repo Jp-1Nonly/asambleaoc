@@ -19854,10 +19854,10 @@ body {
   color: #fff;
 }
 .topnav.navbar-light #sidebarToggle {
-  color: #1f2d41;
+  color: #0061f2;
 }
 .topnav.navbar-light .navbar-brand {
-  color: #323f52;
+  color: #0061f2;
 }
 
 .nav-sticky {
@@ -20006,7 +20006,7 @@ body {
 }
 
 .sidenav-light {
-  background-color: #fff;
+  background-color: #0061f2;
   color: #1f2d41;
 }
 .sidenav-light .sidenav-menu .sidenav-menu-heading {
@@ -20022,13 +20022,13 @@ body {
   color: #a2acba;
 }
 .sidenav-light .sidenav-menu .nav-link:hover {
-  color: #0061f2;
+  color: #fff;
 }
 .sidenav-light .sidenav-menu .nav-link.active {
-  color: #0061f2;
+  color: #fff; 
 }
 .sidenav-light .sidenav-menu .nav-link.active .nav-link-icon {
-  color: #0061f2;
+  color: #000;
 }
 .sidenav-light .sidenav-menu-nested {
   border-left-color: #d7dce3;

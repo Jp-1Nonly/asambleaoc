@@ -30,11 +30,13 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/residentes', [ResidentesController::class, 'index'])->name('residentes.index');
-
-
 Route::get('/create-residentes', [ResidentesController::class, 'create'])->name('residentes.create');
-
-
 Route::post('/upload', [ResidentesController::class, 'upload'])->name('excel.upload');
+Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->name('residentes.edit');
+Route::put('residentes/{id}', [ResidentesController::class, 'update'])->name('residentes.update');
+Route::delete('residentes/{id}', [ResidentesController::class, 'destroy'])->name('residentes.destroy');
+Route::get('residentes/estadisticas', [ResidentesController::class, 'estadisticasResidentes'])->name('residentes.estadisticas');
+
+
 
 require __DIR__.'/auth.php';

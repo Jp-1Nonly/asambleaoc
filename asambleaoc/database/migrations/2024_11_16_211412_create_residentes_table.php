@@ -9,10 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('residentes', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
+            $table->string('tipo');
+            $table->string('apto');
+            $table->decimal('coeficiente', 8, 2);
             $table->timestamps();
         });
     }

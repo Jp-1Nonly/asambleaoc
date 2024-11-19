@@ -13,7 +13,7 @@
     </div>
 
     <!-- Contenedor para la gráfica centrado -->
-    <div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 400px;">
+    <div style="display: flex; justify-content: center; align-items: center; width: 90%; height: 300px;">
         <canvas id="residentesChart"></canvas>
     </div>
 </div>

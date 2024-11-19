@@ -1,107 +1,95 @@
 @extends('layout.app')
 
+@section('name', 'Firmar')
+
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="#">Tablero</a></li>
-                        <li class="breadcrumb-item active">Editar</li>
-                    </ol>
-                </div>
-                <h4 class="page-title">Editar Residente</h4>
-            </div>
-        </div>
-    </div>
+    <div class="container-fluid mt-n10">
+        <div class="card mb-4">
+            <div class="card-header">Verificar datos del residente</div>
+            <div class="card-body">
+                <div class="form">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Editar datos del residente</h3>
-                </div>
-                <div class="card-body">
-                    <div class="form">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                    <form action="{{ route('residentes.update', $residente->id) }}" method="POST"
+                        class="cmxform form-horizontal tasi-form" id="commentForm">
+                        @csrf
+                        @method('PUT')
 
-                        <form action="{{ route('residentes.update', $residente->id) }}" method="POST"
-                            class="cmxform form-horizontal tasi-form" id="commentForm">
-                            @csrf
-                            @method('PUT')
-                            <div class="row align-items-start">
+                        <div class="row">
+                            <!-- Primera columna -->
+                            <div class="col-lg-6">
                                 <div class="form-group row">
-                                    <label for="captura" class="col-form-label col-lg-4">Firma</label>
+                                    <label for="nombre_residente" class="col-form-label col-lg-4">Nombre</label>
                                     <div class="col-lg-8">
-                                        <canvas id="canvas" width="240" height="160"
-                                            style="border: 1px solid black;"></canvas>
-                                        <div>
-                                            <button type="button" id="takePhoto" class="btn btn-primary btn-xs">Tomar
-                                                Firma</button>
-                                        </div>
-                                        <input type="hidden" id="captura" name="captura"><br>
+                                        <input class="form-control" id="nombre_residente" type="text" name="nombre"
+                                            placeholder="Ingresa el nombre" value="{{ $residente->nombre }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="tipo_residente" class="col-form-label col-lg-4">Tipo</label>
+                                    <div class="col-lg-8">
+                                        <input class="form-control" id="tipo_residente" type="text" name="tipo"
+                                            placeholder="Ingresa el tipo" value="{{ $residente->tipo }}" readonly>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6">
-                                    <div class="form-group row">
-                                        <label for="nombre_residente" class="col-form-label col-lg-4">Nombre</label>
-                                        <div class="col-lg-8">
-                                            <input class="form-control" id="nombre_residente" type="text" name="nombre"
-                                                placeholder="Ingresa el nombre" value="{{ $residente->nombre }}" required>
-                                        </div>
+                            </div>
+
+                            <!-- Segunda columna -->
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label for="apto" class="col-form-label col-lg-4">Apto</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" id="apto" type="text" name="apto"
+                                            placeholder="Ingresa el apartamento" value="{{ $residente->apto }}" readonly>
                                     </div>
-                                    <div class="form-group row">
-                                        <label for="tipo_residente" class="col-form-label col-lg-4">Tipo</label>
-                                        <div class="col-lg-8">
-                                            <select class="form-control" name="tipo" id="tipo_residente" required>
-                                                <option value="" disabled>Elige un tipo</option>
-                                                <option value="propietario"
-                                                    {{ $residente->tipo == 'propietario' ? 'selected' : '' }}>Propietario
-                                                </option>
-                                                <option value="inquilino"
-                                                    {{ $residente->tipo == 'inquilino' ? 'selected' : '' }}>Inquilino
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="apto" class="col-form-label col-lg-4">Apto</label>
-                                        <div class="col-lg-8">
-                                            <input class="form-control" id="apto" type="text" name="apto"
-                                                placeholder="Ingresa el apto" value="{{ $residente->apto }}" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="coeficiente" class="col-form-label col-lg-4">Coeficiente</label>
-                                        <div class="col-lg-8">
-                                            <input class="form-control" id="coeficiente" type="number" name="coeficiente"
-                                                placeholder="Ingresa el coeficiente" value="{{ $residente->coeficiente }}"
-                                                required>
-                                        </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="coeficiente" class="col-form-label col-lg-4">Coeficiente</label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" id="coeficiente" type="number" name="coeficiente"
+                                            placeholder="Ingresa el coeficiente" value="{{ $residente->coeficiente }}"
+                                            readonly>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <hr><br>
+                        <div class="row justify-content-center align-items-center">
+                            <!-- Campo de Firma -->
+                            <div class="form-group text-center">
+                                <label for="captura" class="col-form-label col-lg-12">Firma</label>
+                                <div class="col-lg-12">
+                                    <canvas id="canvas" width="240" height="160"
+                                            style="border: 1px solid rgb(179, 175, 175);"></canvas>
+                                    <div>
+                                        <button type="button" id="takePhoto" class="btn btn-primary btn-xs">Tomar Firma</button>
+                                    </div>
+                                    <input type="hidden" id="captura" name="captura"><br>
+                                </div>
+                            </div>
+                        </div>
+                        
 
-                            <div class="form-group row mb-0">
-                                <div class="offset-lg-2 col-lg-8 text-lg-center">
-                                    <button class="btn btn-success btn-xs waves-effect waves-light mr-1" type="submit"><i
-                                            class="mdi mdi-content-save-all"></i> Actualizar</button>
-                                    <button class="btn btn-danger btn-xs waves-effect" type="button"
+                        <div class="form-group row mb-0">
+                            <div class="offset-lg-2 col-lg-8 text-lg-center">
+                                <button class="btn btn-success btn-xs waves-effect waves-light mr-1" type="submit"><i
+                                        class="mdi mdi-content-save-all"></i> Actualizar</button>
+                                <button class="btn btn-danger btn-xs waves-effect" type="button"
                                         onclick="window.location='{{ route('residentes.index') }}'"><i
-                                            class="mdi mdi-close-box-outline"></i> Cancelar</button>
-                                </div>
+                                        class="mdi mdi-close-box-outline"></i> Cancelar</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

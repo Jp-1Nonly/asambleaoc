@@ -16,6 +16,6 @@ class Residente extends Model
         'tipo',
         'apto',
         'coeficiente',
-        'firma',
+        'captura',
     ];
 }

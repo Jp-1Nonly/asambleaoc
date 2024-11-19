@@ -1,84 +1,166 @@
 @extends('layout.app')
 
 @section('content')
-<div class="container">
-    <h2>Firmar Residente</h2>
-    <p>Residente: {{ $residente->nombre }}</p>
-<!-- Formulario para capturar la firma -->
-<form action="{{ route('residentes.guardarFirma', $residente->id) }}" method="POST">
-    @csrf
-    <div class="signature-container">
-        <p>Firma:</p>
-        <!-- Canvas para dibujar la firma -->
-        <canvas id="signatureCanvas" width="300" height="150"></canvas>
-        <button type="button" id="clearButton" class="btn btn-secondary">Limpiar Firma</button>
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb p-0 m-0">
+                        <li class="breadcrumb-item"><a href="#">Tablero</a></li>
+                        <li class="breadcrumb-item active">Editar</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Editar Residente</h4>
+            </div>
+        </div>
     </div>
 
-    <!-- Campo oculto para enviar la firma en base64 -->
-    <input type="hidden" name="firma" id="firma">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Editar datos del residente</h3>
+                </div>
+                <div class="card-body">
+                    <div class="form">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
-    <!-- Botón para guardar la firma -->
-    <button type="submit" class="btn btn-success mt-3" id="submitButton">Guardar Firma</button>
-</form>
+                        <form action="{{ route('residentes.update', $residente->id) }}" method="POST"
+                            class="cmxform form-horizontal tasi-form" id="commentForm">
+                            @csrf
+                            @method('PUT')
+                            <div class="row align-items-start">
+                                <div class="form-group row">
+                                    <label for="captura" class="col-form-label col-lg-4">Firma</label>
+                                    <div class="col-lg-8">
+                                        <canvas id="canvas" width="240" height="160"
+                                            style="border: 1px solid black;"></canvas>
+                                        <div>
+                                            <button type="button" id="takePhoto" class="btn btn-primary btn-xs">Tomar
+                                                Firma</button>
+                                        </div>
+                                        <input type="hidden" id="captura" name="captura"><br>
+                                    </div>
+                                </div>
 
-<!-- Aquí va el código JavaScript -->
-<script>
-    // Obtener el canvas y su contexto
-    const canvas = document.getElementById('signatureCanvas');
-    const ctx = canvas.getContext('2d');
+                                <div class="col-lg-6">
+                                    <div class="form-group row">
+                                        <label for="nombre_residente" class="col-form-label col-lg-4">Nombre</label>
+                                        <div class="col-lg-8">
+                                            <input class="form-control" id="nombre_residente" type="text" name="nombre"
+                                                placeholder="Ingresa el nombre" value="{{ $residente->nombre }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="tipo_residente" class="col-form-label col-lg-4">Tipo</label>
+                                        <div class="col-lg-8">
+                                            <select class="form-control" name="tipo" id="tipo_residente" required>
+                                                <option value="" disabled>Elige un tipo</option>
+                                                <option value="propietario"
+                                                    {{ $residente->tipo == 'propietario' ? 'selected' : '' }}>Propietario
+                                                </option>
+                                                <option value="inquilino"
+                                                    {{ $residente->tipo == 'inquilino' ? 'selected' : '' }}>Inquilino
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="apto" class="col-form-label col-lg-4">Apto</label>
+                                        <div class="col-lg-8">
+                                            <input class="form-control" id="apto" type="text" name="apto"
+                                                placeholder="Ingresa el apto" value="{{ $residente->apto }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="coeficiente" class="col-form-label col-lg-4">Coeficiente</label>
+                                        <div class="col-lg-8">
+                                            <input class="form-control" id="coeficiente" type="number" name="coeficiente"
+                                                placeholder="Ingresa el coeficiente" value="{{ $residente->coeficiente }}"
+                                                required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-    // Configurar el color y el grosor del trazo
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#000000';
+                            <div class="form-group row mb-0">
+                                <div class="offset-lg-2 col-lg-8 text-lg-center">
+                                    <button class="btn btn-success btn-xs waves-effect waves-light mr-1" type="submit"><i
+                                            class="mdi mdi-content-save-all"></i> Actualizar</button>
+                                    <button class="btn btn-danger btn-xs waves-effect" type="button"
+                                        onclick="window.location='{{ route('residentes.index') }}'"><i
+                                            class="mdi mdi-close-box-outline"></i> Cancelar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    // Variables para controlar el dibujo
-    let isDrawing = false;
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    // Función para iniciar el dibujo
-    canvas.addEventListener('mousedown', (e) => {
-        isDrawing = true;
-        ctx.beginPath();
-        ctx.moveTo(e.offsetX, e.offsetY);
-    });
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+            const takePhotoButton = document.getElementById('takePhoto');
+            const capturaInput = document.getElementById('captura');
+            let isDrawing = false;
 
-    // Función para dibujar sobre el canvas
-    canvas.addEventListener('mousemove', (e) => {
-        if (isDrawing) {
-            ctx.lineTo(e.offsetX, e.offsetY);
-            ctx.stroke();
-        }
-    });
+            function startDrawing(event) {
+                isDrawing = true;
+                draw(event);
+            }
 
-    // Función para detener el dibujo
-    canvas.addEventListener('mouseup', () => {
-        isDrawing = false;
-    });
+            function stopDrawing() {
+                isDrawing = false;
+                context.beginPath();
+            }
 
-    // Función para limpiar el canvas
-    document.getElementById('clearButton').addEventListener('click', () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
+            function draw(event) {
+                if (!isDrawing) return;
+                context.lineWidth = 3;
+                context.lineCap = 'round';
+                context.strokeStyle = 'black';
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                context.lineTo(x, y);
+                context.stroke();
+                context.beginPath();
+                context.moveTo(x, y);
+            }
 
-    // Agregar el evento submit al formulario
-    document.querySelector('form').addEventListener('submit', (e) => {
-        // Convertir el contenido del canvas a base64 (imagen PNG)
-        const firmaData = canvas.toDataURL('image/png');
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseleave', stopDrawing);
 
-        // Colocar la firma en el campo oculto 'firma'
-        document.getElementById('firma').value = firmaData;
+            takePhotoButton.addEventListener('click', function() {
+                const dataURL = canvas.toDataURL('image/png');
+                capturaInput.value = dataURL; // Asignar el valor al campo 'captura'
+                console.log(capturaInput.value); // Verificar el contenido
 
-        // Verificar en la consola que la firma está bien (para depuración)
-        console.log(firmaData); // Esto imprimirá la cadena base64 en la consola
-    });
-</script>
+                Swal.fire({
+                    toast: true,
+                    icon: 'success',
+                    title: '¡Firma tomada!',
+                    text: 'Exitosamente.',
+                    showConfirmButton: false,
+                    timer: 1800
+                });
+            });
 
-
-<script>document.querySelector('form').addEventListener('submit', (e) => {
-    const firmaData = canvas.toDataURL('image/png'); // Convierte el contenido del canvas a una cadena base64
-    document.getElementById('firma').value = firmaData; // Establece la base64 en el campo oculto
-    console.log(firmaData); // Verificar la cadena base64 en la consola
-});
-</script>
-
+        });
+    </script>
 @endsection

@@ -16,9 +16,8 @@
                             <th>Tipo</th>
                             <th>Apto</th>
                             <th>Coeficiente</th>
-                            <th>Firma</th>
-                            <th>Acciones</th>
-                            <th>Firmar</th>
+                            <th>Captura</th>
+                            <th>Capturar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,22 +29,15 @@
                             <td>{{ $residente->apto }}</td>
                             <td>{{ $residente->coeficiente }}</td>
                             <td>
-                                @if ($residente->firma)
-                                    <img src="data:image/png;base64,{{ $residente->firma }}" alt="Firma" width="100">
+                                @if ($residente->captura)
+                                    <img src="data:image/jpeg;base64,{{ $residente->captura }}" alt="Imagen del Residente" width="100" height="70">
                                 @else
-                                    No firmada
+                                    No capturada
                                 @endif
                             </td>
+                            
                             <td>
-                                <a href="{{ route('residentes.edit', $residente->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                                <form action="{{ route('residentes.destroy', $residente->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar?')">Eliminar</button>
-                                </form>
-                            </td>
-                            <td>
-                                <a href="{{ route('residentes.firmar', $residente->id) }}" class="btn btn-success btn-sm">Firmar</a>
+                                <a href="{{ route('residentes.edit', $residente->id) }}" class="btn btn-success btn-sm">Firmar</a>
                             </td>
                         </tr>
                         @endforeach

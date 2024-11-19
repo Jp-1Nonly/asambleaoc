@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('tipo')->nullable();
             $table->string('apto');
-            $table->decimal('coeficiente', 8, 2)->default(0); // Permitir un valor predeterminado
-            $table->longText('firma')->nullable();
+            $table->string('coeficiente'); // Permitir un valor predeterminado
+            $table->longText('captura')->nullable();
             $table->timestamps();
         });
 
         Schema::table('residentes', function (Blueprint $table) {
-            $table->longBlob('firma')->nullable();  // Asegúrate de que la columna permita valores nulos si no es obligatoria
+            $table->longBlob('captura')->nullable();  // Asegúrate de que la columna permita valores nulos si no es obligatoria
         });
         
     }

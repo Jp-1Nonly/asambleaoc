@@ -21,7 +21,7 @@
                                         <label for="file">Buscar en el equipo:</label>
                                         <input type="file" name="file" class="form-control" required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary mt-3">Subir y Procesar</button>
+                                    <button type="submit" class="btn btn-primary btn-sm">Subir y Procesar</button>
                                 </form>
                             </div>
                         </div>

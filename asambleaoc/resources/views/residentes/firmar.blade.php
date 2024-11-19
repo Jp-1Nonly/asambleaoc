@@ -56,7 +56,7 @@
                                 <div class="form-group row">
                                     <label for="coeficiente" class="col-form-label col-lg-4">Coeficiente</label>
                                     <div class="col-lg-6">
-                                        <input class="form-control" id="coeficiente" type="number" name="coeficiente"
+                                        <input class="form-control" id="coeficiente" type="text" name="coeficiente"
                                             placeholder="Ingresa el coeficiente" value="{{ $residente->coeficiente }}"
                                             readonly>
                                     </div>

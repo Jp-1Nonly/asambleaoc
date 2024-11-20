@@ -21,12 +21,12 @@
                                             <label for="file">Buscar en el equipo:</label>
                                             <input type="file" name="file" id="file"
                                                 class="form-control-file d-none" required>
-                                            <button type="button" class="btn btn-primary btn-sm"
+                                            <button type="button" class="btn btn-primary btn-xs"
                                                 onclick="document.getElementById('file').click()">Seleccionar
                                                 archivo</button>
                                             <span id="file-name" class="ml-2 text-muted"></span>
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-sm">Subir y Procesar</button>
+                                        <button type="submit" class="btn btn-primary btn-xs">Subir y Procesar</button>
                                     </form>
                                 </div>
                             </div>

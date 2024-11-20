@@ -65,7 +65,7 @@
                                     </div>
                                     <div class="card-footer text-center">
                                         <div class="small">
-                                            <a href="{{ route('register') }}">{{ __('Need an account? Sign up!') }}</a>
+                                            <a href="{{ route('register') }}">{{ __('Crear cuenta') }}</a>
                                         </div>
                                     </div>
                                 </div>

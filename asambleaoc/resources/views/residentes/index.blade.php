@@ -41,7 +41,7 @@
                                         @if (empty($residente->captura))
                                             <!-- Mostrar el botón solo si no tiene firma -->
                                             <a href="{{ route('residentes.edit', $residente->id) }}"
-                                                class="btn btn-success btn-sm">Firmar</a>
+                                                class="btn btn-success btn-xs">Firmar</a>
                                         @endif
                                     </td>
                                 </tr>

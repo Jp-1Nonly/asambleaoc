@@ -72,11 +72,7 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="card-footer text-center">
-                                    <div class="small">
-                                        <a href="{{ route('login') }}">{{ __('Regresar al login') }}</a>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>

@@ -205,6 +205,8 @@ a:not([href]):hover {
   text-decoration: none;
 }
 
+
+
 pre,
 code,
 kbd,
@@ -17416,8 +17418,13 @@ a.text-danger-soft:hover, a.text-danger-soft:focus {
   }
 
   a:not(.btn) {
-    text-decoration: underline;
+    text-decoration: none;
   }
+  .menu-link {
+    text-decoration: none !important;
+}
+
+
 
   abbr[title]::after {
     content: " (" attr(title) ")";

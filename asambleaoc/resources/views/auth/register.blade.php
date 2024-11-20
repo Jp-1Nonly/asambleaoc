@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Página de registro de usuario" />
     <meta name="author" content="Oscar Cañas - Juan Pablo Cañas" />
-    <title>Registro - Tu Sitio</title>
+    <meta name="theme-color" content="#0061f2">
+    <title>Registro - ##</title>
     <!-- Referencia a los estilos CSS -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />

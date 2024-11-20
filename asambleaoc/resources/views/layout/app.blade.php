@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
+    <meta name="theme-color" content="#0061f2">
+
     <title>Asamblea</title>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
@@ -27,7 +29,10 @@
     <nav class="topnav navbar navbar-expand shadow navbar-light bg-white" id="sidenavAccordion">
       
         <div class="page-header-icon"></div>
-        <a class="navbar-brand d-none d-sm-block" href="#!">{{ \Illuminate\Support\Facades\Auth::user()->name }}</a>
+        <a class="navbar-brand d-none d-sm-block" href="#!">
+            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Invitado' }}
+        </a>
+        
        
         <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle" href="#"><i
                 data-feather="menu"></i></button>

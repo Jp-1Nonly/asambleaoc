@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
+        <meta name="theme-color" content="#0061f2">
         <title>Login - SB Admin Pro</title>
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -22,7 +23,7 @@
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header justify-content-center">
-                                        <h3 class="font-weight-light my-4">{{ __('Bienvenido') }}</h3>
+                                        <h3 class="font-weight-light my-4">{{ __('Aplicación en prueba') }}</h3>
                                     </div>
                                     <div class="card-body">
                                         <!-- Mensajes de Estado de Sesión -->

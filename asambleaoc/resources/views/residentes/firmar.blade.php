@@ -52,7 +52,7 @@
                                             placeholder="Ingresa el apartamento" value="{{ $residente->apto }}" readonly>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group row">
                                     <label for="coeficiente" class="col-form-label col-lg-4">Coeficiente</label>
                                     <div class="col-lg-6">
@@ -64,28 +64,30 @@
                             </div>
                         </div>
                         <hr><br>
-                        <div class="row justify-content-center align-items-center">
-                            <!-- Campo de Firma -->
-                            <div class="form-group text-center">
-                                <label for="captura" class="col-form-label col-lg-12">Firma</label>
-                                <div class="col-lg-12">
-                                    <canvas id="canvas" width="240" height="160"
-                                            style="border: 1px solid rgb(179, 175, 175);"></canvas>
-                                    <div>
-                                        <button type="button" id="takePhoto" class="btn btn-primary btn-xs">Tomar Firma</button>
+                        <div class="container">
+                            <div class="row justify-content-center align-items-center">
+                                <!-- Campo de Firma -->
+                                <div class="signature-container text-center">
+                                    <label for="captura" class="col-form-label col-lg-12">Firma</label>
+                                    <div class="col-lg-12">
+                                        <canvas id="canvas" width="240" height="160"></canvas>
+                                        <div>
+                                            <button type="button" id="takePhoto" class="btn btn-primary btn-xs">Tomar
+                                                Firma</button>
+                                        </div>
+                                        <input type="hidden" id="captura" name="captura"><br>
                                     </div>
-                                    <input type="hidden" id="captura" name="captura"><br>
                                 </div>
                             </div>
                         </div>
-                        
+
 
                         <div class="form-group row mb-0">
                             <div class="offset-lg-2 col-lg-8 text-lg-center">
                                 <button class="btn btn-success btn-xs waves-effect waves-light mr-1" type="submit"><i
                                         class="mdi mdi-content-save-all"></i> Enviar</button>
                                 <button class="btn btn-danger btn-xs waves-effect" type="button"
-                                        onclick="window.location='{{ route('residentes.index') }}'"><i
+                                    onclick="window.location='{{ route('residentes.index') }}'"><i
                                         class="mdi mdi-close-box-outline"></i> Cancelar</button>
                             </div>
                         </div>
@@ -105,6 +107,7 @@
             const capturaInput = document.getElementById('captura');
             let isDrawing = false;
 
+            // Funciones comunes para dibujar
             function startDrawing(event) {
                 isDrawing = true;
                 draw(event);
@@ -121,18 +124,33 @@
                 context.lineCap = 'round';
                 context.strokeStyle = 'black';
                 const rect = canvas.getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const y = event.clientY - rect.top;
+
+                // Asegurarse de obtener las coordenadas correctas según el dispositivo
+                const x = (event.clientX || event.touches[0].clientX) - rect.left;
+                const y = (event.clientY || event.touches[0].clientY) - rect.top;
+
                 context.lineTo(x, y);
                 context.stroke();
                 context.beginPath();
                 context.moveTo(x, y);
             }
 
+            // Para dispositivos de escritorio (Mouse)
             canvas.addEventListener('mousedown', startDrawing);
             canvas.addEventListener('mouseup', stopDrawing);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseleave', stopDrawing);
+
+            // Para dispositivos móviles (Táctil)
+            canvas.addEventListener('touchstart', function(event) {
+                event.preventDefault(); // Evita el comportamiento predeterminado del navegador
+                startDrawing(event);
+            });
+            canvas.addEventListener('touchend', stopDrawing);
+            canvas.addEventListener('touchmove', function(event) {
+                event.preventDefault(); // Evita el desplazamiento mientras se dibuja
+                draw(event);
+            });
 
             takePhotoButton.addEventListener('click', function() {
                 const dataURL = canvas.toDataURL('image/png');
@@ -148,7 +166,47 @@
                     timer: 1800
                 });
             });
-
         });
     </script>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            /* Desactiva el desplazamiento en el body */
+        }
+
+        .signature-container {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+
+        }
+
+        canvas {
+            border: 1px solid #000;
+            display: block;
+            margin: 0 auto;
+            touch-action: none;
+            /* Evita el scrolling mientras se dibuja */
+        }
+
+        button {
+            margin: 5px 0;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+
+        }
+    </style>
+
 @endsection

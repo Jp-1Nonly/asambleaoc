@@ -83,7 +83,7 @@
                         <div class="form-group row mb-0">
                             <div class="offset-lg-2 col-lg-8 text-lg-center">
                                 <button class="btn btn-success btn-xs waves-effect waves-light mr-1" type="submit"><i
-                                        class="mdi mdi-content-save-all"></i> Actualizar</button>
+                                        class="mdi mdi-content-save-all"></i> Enviar</button>
                                 <button class="btn btn-danger btn-xs waves-effect" type="button"
                                         onclick="window.location='{{ route('residentes.index') }}'"><i
                                         class="mdi mdi-close-box-outline"></i> Cancelar</button>

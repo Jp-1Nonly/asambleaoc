@@ -143,7 +143,7 @@
                             <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavLayout">
                                 <a class="nav-link" href="{{ route('residentes.index') }}">Listado</a>
                                 <a class="nav-link" href="{{ route('residentes.create') }}">Cargar Excel</a>
-                                <a class="nav-link" href="{{ route('residentes.estadisticas') }}">Estadisticas</a
+                                <a class="nav-link" href="{{ route('residentes.estadisticas') }}">Quorum</a
                                 ><a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayoutsPageHeaders" aria-expanded="false" aria-controls="collapseLayoutsPageHeaders"
                                     >Page Headers
                                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div

@@ -30,7 +30,7 @@
       
         <div class="page-header-icon"></div>
         <a class="navbar-brand d-none d-sm-block" href="#!">
-            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Invitado' }}
+            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}
         </a>
         
        
@@ -53,36 +53,16 @@
             <nav class="sidenav shadow-right sidenav-light">
                 <div class="sidenav-menu">
                     <div class="nav accordion" id="accordionSidenav">
-
-                        <div class="sidenav-menu-heading">Administrar</div>
-                        <a class="nav-link collapsed" href="javascript:void(0);" data-toggle="collapse"
-                            data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="nav-link-icon"><i data-feather="layout"></i></div>
-                            Residentes
-                            <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" data-parent="#accordionSidenav">
-                            <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavLayout">
-                                <a class="nav-link" href="{{ route('residentes.index') }}">Listado</a>
-                                <a class="nav-link" href="{{ route('residentes.create') }}">Cargar Excel</a>
-                                <a class="nav-link" href="{{ route('residentes.estadisticas') }}">Quorum</a>
-                                
-                                <div class="collapse" id="collapseLayoutsPageHeaders"
-                                    data-parent="#accordionSidenavLayout">
-                                    <nav class="sidenav-menu-nested nav"><a class="nav-link"
-                                            href="header-simplified.html">Simplified</a><a class="nav-link"
-                                            href="header-overlap.html">Content Overlap</a><a class="nav-link"
-                                            href="header-breadcrumbs.html">Breadcrumbs</a><a class="nav-link"
-                                            href="header-light.html">Light</a></nav>
-                                </div>
-                            </nav>
-                        </div>
-                        
+                                              
                        
                         <div class="sidenav-menu-heading">Administrar</div>
                         <a class="nav-link" href="{{ route('residentes.index') }}">
                             <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
                             Listado
+                        </a>
+                        <a class="nav-link" href="{{ route('buscar.apto.form') }}">
+                            <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
+                            Buscar Copropietario
                         </a>
                         <a class="nav-link" href="{{ route('residentes.create') }}">
                             <div class="nav-link-icon"><i data-feather="tool"></i></i></div>

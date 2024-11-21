@@ -21,6 +21,8 @@ Route::get('/', function () {
 Route::get('/residentes', [ResidentesController::class, 'index'])->name('residentes.index');
 Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->name('residentes.edit');
 Route::put('residentes/{id}', [ResidentesController::class, 'update'])->name('residentes.update');
+Route::get('/buscar-apto', [ResidentesController::class, 'showForm'])->name('buscar.apto.form');
+Route::post('/buscar-apto', [ResidentesController::class, 'search'])->name('buscar.apto');
 
 // Rutas protegidas por autenticación, excepto las relacionadas con /residentes
 Route::middleware('auth')->group(function () {

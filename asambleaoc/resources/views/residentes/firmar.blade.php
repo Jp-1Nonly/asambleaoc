@@ -36,10 +36,13 @@
                                 <div class="form-group row">
                                     <label for="tipo_residente" class="col-form-label col-lg-4">Tipo</label>
                                     <div class="col-lg-8">
-                                        <input class="form-control" id="tipo_residente" type="text" name="tipo"
-                                            placeholder="Ingresa el tipo" value="{{ $residente->tipo }}" readonly>
+                                        <select name="tipo" id="tipo" class="form-control">
+                                            <option value="Propietario" {{ $residente->tipo === 'Propietario' ? 'selected' : '' }}>Propietario</option>
+                                            <option value="Delegado" {{ $residente->tipo === 'Delegado' ? 'selected' : '' }}>Delegado</option>
+                                        </select>
                                     </div>
                                 </div>
+                                
 
                             </div>
 
@@ -70,7 +73,7 @@
                                 <div class="signature-container text-center">
                                     <label for="captura" class="col-form-label col-lg-12">Firma</label>
                                     <div class="col-lg-12">
-                                        <canvas id="canvas" width="240" height="160"></canvas>
+                                        <canvas id="canvas" width="360" height="180"></canvas>
                                         <div>
                                             <button type="button" id="takePhoto" class="btn btn-primary btn-xs">Tomar
                                                 Firma</button>

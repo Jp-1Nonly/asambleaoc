@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResidentesController;
+use App\Http\Controllers\DatosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/create-residentes', [ResidentesController::class, 'create'])->name('residentes.create');
     Route::post('/upload', [ResidentesController::class, 'upload'])->name('excel.upload');
+
+    Route::resource('datos', DatosController::class);
+    Route::get('datos', [DatosController::class, 'index'])->name('datos.index');
+    Route::get('datos/create', [DatosController::class, 'create'])->name('datos.create');
+
+
 });
 
 // Rutas que requieren autenticación y verificación del correo

@@ -22,26 +22,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
         integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+
 </head>
 
 <body class="nav-fixed">
     <nav class="topnav navbar navbar-expand shadow navbar-light bg-white" id="sidenavAccordion">
-      
+
         <div class="page-header-icon"></div>
         <a class="navbar-brand d-none d-sm-block" href="#!">
             {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}
         </a>
-        
-       
-        <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle" href="#"><i
-                data-feather="menu"></i></button>
-        
+
+
+        <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"
+            href="#"><i data-feather="menu"></i></button>
+
         <ul class="navbar-nav align-items-center ml-auto">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <i class="fa-solid fa-right-from-bracket"></i>
-                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-link" >
+                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-link">
                     <span> Salir</span>
                 </a>
             </form>
@@ -53,8 +53,8 @@
             <nav class="sidenav shadow-right sidenav-light">
                 <div class="sidenav-menu">
                     <div class="nav accordion" id="accordionSidenav">
-                                              
-                       
+
+
                         <div class="sidenav-menu-heading">Administrar</div>
                         <a class="nav-link" href="{{ route('residentes.index') }}">
                             <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
@@ -70,22 +70,28 @@
                         </a>
                         <a class="nav-link" href="{{ route('residentes.estadisticas') }}">
                             <div class="nav-link-icon"><i data-feather="filter"></i></div>
-                            Quorum</a>
+                            Quorum
+                        </a>
+                        <a class="nav-link" href="{{ route('datos.index') }}">
+                            <div class="nav-link-icon"><i data-feather="tool"></i></div>
+                            Configuración
+                        </a>
                     </div>
                 </div>
-                
+
                 <div class="sidenav-footer">
-                    <div class="sidenav-footer-content">                       
+                    <div class="sidenav-footer-content">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <i class="fa-solid fa-right-from-bracket"></i>
-                            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-link">
+                            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
+                                class="menu-link">
                                 <span> Salir</span>
                             </a>
-                        </form>                        
+                        </form>
                     </div>
                 </div>
-                
+
             </nav>
         </div>
         <div id="layoutSidenav_content">
@@ -109,11 +115,11 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 small">Copyright &copy; Your Website {{ now()->year }}</div>
-                            <div class="col-md-6 text-sm-right small">
-                                <a href="#!">Desarrollo:</a>
-                                &middot;
-                                <a href="https://xn--oscarcaas-r6a.co/">Oscar Cañas - Juan Pablo Cañas</a>
-                            </div>
+                        <div class="col-md-6 text-sm-right small">
+                            <a href="#!">Desarrollo:</a>
+                            &middot;
+                            <a href="https://xn--oscarcaas-r6a.co/">Oscar Cañas - Juan Pablo Cañas</a>
+                        </div>
                     </div>
                 </div>
             </footer>
@@ -139,6 +145,10 @@
     <script src="{{ asset('assets/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/demo/chart-bar-demo.js') }}"></script>
     <script src="{{ asset('assets/demo/datatables-demo.js') }}"></script>
+    <!-- Bootstrap CSS -->
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </body>
 

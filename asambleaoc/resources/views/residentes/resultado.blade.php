@@ -17,7 +17,7 @@
                                 <th>Apartamento</th>
                                 <th>Coeficiente</th>
                                 <th>Firma</th>
-                                <th>Capturar</th>
+                                <th>Autorización tratamiento de datos</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,8 +39,19 @@
                                     <td>
                                         @if (empty($residente->captura))
                                             <!-- Mostrar el botón solo si no tiene firma -->
-                                            <a href="{{ route('residentes.edit', $residente->id) }}"
-                                                class="btn btn-success btn-xs">Firmar</a>
+                                            <!-- Agregar la protección de datos -->
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="consentimiento{{ $residente->id }}" required>
+                                                <label class="form-check-label" for="consentimiento{{ $residente->id }}">
+                                                    <small class="form-text text-muted"> <strong>Autorizo la toma de mi foto y el tratamiento de mis datos personales</strong> conforme a la Ley 1581 de 2012 y demás normativas relacionadas con la protección de datos personales en Colombia.
+                                                    <a href="/politica-de-privacidad" target="_blank">Lea nuestra política de privacidad.</a>
+                                                    </small>
+                                                </label>
+                                            </div>
+                                            
+                                            <a href="{{ route('residentes.edit', $residente->id) }}" class="btn btn-success btn-xs mt-2" onclick="return document.getElementById('consentimiento{{ $residente->id }}').checked;">
+                                                Firmar
+                                            </a>
                                         @endif
                                     </td>
                                 </tr>

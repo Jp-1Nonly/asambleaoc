@@ -213,68 +213,72 @@ class ResidentesController extends Controller
 
 
     public function generarPDF()
-    {
-        $datos = Datos::first(); // Información de la empresa
-        $residentes = Residente::all(); // Obtener todos los residentes
-        $totalResidentes = $residentes->count(); // Total de residentes
-        $residentesFirmados = $residentes->whereNotNull('captura')->count(); // Residentes firmados
-        $residentesNoFirmados = $totalResidentes - $residentesFirmados;
-        
-        // Calcular porcentajes con 2 decimales
-        $porcentajeFirmados = $totalResidentes > 0 ? round(($residentesFirmados / $totalResidentes) * 100, 2) : 0;
-        $porcentajeNoFirmados = $totalResidentes > 0 ? round((($totalResidentes - $residentesFirmados) / $totalResidentes) * 100, 2) : 0;
-    
-        // Crear la URL de la gráfica con porcentajes
-        $chartUrl = "https://quickchart.io/chart?c=" . urlencode(json_encode([
-            'type' => 'pie',
-            'data' => [
-                'labels' => [
-                    sprintf("Firmados: %d (%.2f%%)", $residentesFirmados, $porcentajeFirmados),
-                    sprintf("No Firmados: %d (%.2f%%)", $residentesNoFirmados, $porcentajeNoFirmados),
-                ],
-                'datasets' => [[
-                    'data' => [$residentesFirmados, $residentesNoFirmados],
-                    'backgroundColor' => ['#36A2EB', '#505163'],
-                    'borderColor' => ['#36A2EB', '#505163'],
-                    'borderWidth' => 1
-                ]]
+{
+    $datos = Datos::first(); // Información de la empresa
+    $residentes = Residente::all(); // Obtener todos los residentes
+    $totalResidentes = $residentes->count(); // Total de residentes
+    $residentesFirmados = $residentes->whereNotNull('captura')->count(); // Residentes firmados
+    $residentesNoFirmados = $totalResidentes - $residentesFirmados;
+
+    // Calcular porcentajes con 2 decimales
+    $porcentajeFirmados = $totalResidentes > 0 ? round(($residentesFirmados / $totalResidentes) * 100, 2) : 0;
+    $porcentajeNoFirmados = $totalResidentes > 0 ? round((($totalResidentes - $residentesFirmados) / $totalResidentes) * 100, 2) : 0;
+
+    // Crear la URL de la gráfica con porcentajes
+    $chartUrl = "https://quickchart.io/chart?c=" . urlencode(json_encode([
+        'type' => 'pie',
+        'data' => [
+            'labels' => [
+                sprintf("Firmados: %d (%.2f%%)", $residentesFirmados, $porcentajeFirmados),
+                sprintf("No Firmados: %d (%.2f%%)", $residentesNoFirmados, $porcentajeNoFirmados),
             ],
-            'options' => [
-                'responsive' => true,
-                'plugins' => [
-                    'datalabels' => [
-                        'display' => true,
-                        'color' => '#FFF',
-                        'font' => [
-                            'weight' => 'bold',
-                            'size' => 16
-                        ]
+            'datasets' => [[
+                'data' => [$residentesFirmados, $residentesNoFirmados],
+                'backgroundColor' => ['#36A2EB', '#505163'],
+                'borderColor' => ['#36A2EB', '#505163'],
+                'borderWidth' => 1
+            ]]
+        ],
+        'options' => [
+            'responsive' => true,
+            'plugins' => [
+                'datalabels' => [
+                    'display' => true,
+                    'color' => '#FFF',
+                    'font' => [
+                        'weight' => 'bold',
+                        'size' => 16
                     ]
                 ]
             ]
-        ]));
-        
-    
-        // Descargar la imagen de la gráfica
-        $imageContent = file_get_contents($chartUrl);
-        $imagePath = storage_path('app/public/residente_graphic.png');
-        file_put_contents($imagePath, $imageContent); // Guardar la imagen localmente
-    
-        // Generar el PDF usando la vista
-        $pdf = Pdf::loadView('residentes.pdf', compact(
-            'datos',
-            'residentes',
-            'totalResidentes',
-            'residentesFirmados',
-            'porcentajeFirmados',
-            'porcentajeNoFirmados',
-            'residentesNoFirmados',
-            'imagePath' // Ruta de la gráfica
-        ));
-    
-        return $pdf->download('residentes.pdf');
-    }
-    
+        ]
+    ]));
+
+    // Descargar la imagen de la gráfica
+    $imageContent = file_get_contents($chartUrl);
+    $imagePath = storage_path('app/public/residente_graphic.png');
+    file_put_contents($imagePath, $imageContent); // Guardar la imagen localmente
+
+    // Generar el PDF usando la vista
+    $pdf = Pdf::loadView('residentes.pdf', compact(
+        'datos',
+        'residentes',
+        'totalResidentes',
+        'residentesFirmados',
+        'porcentajeFirmados',
+        'porcentajeNoFirmados',
+        'residentesNoFirmados',
+        'imagePath' // Ruta de la gráfica
+    ));
+
+    // Usar el campo 'evento' para el nombre del archivo
+    $evento = $datos->evento ?? 'reporte';
+    $nombreArchivo = preg_replace('/[\/\\\\]/', '-', $evento) . '.pdf'; // Reemplazar "/" y "\" por "-"
+
+    // Retornar el PDF descargable con el nombre dinámico
+    return $pdf->download($nombreArchivo);
+}
+
     
     
     

@@ -11,7 +11,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-    
         body {
             font-family: 'Verdana', sans-serif;
             font-size: 9pt;
@@ -19,14 +18,12 @@
             background-color: #f9f9f9;
             position: relative;
         }
-    
         h1 {
             text-align: center;
             font-size: 14pt;
             color: #333;
             margin: 15px 0;
         }
-    
         #page_pdf {
             width: 95%;
             margin: 0 auto;
@@ -35,24 +32,19 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-    
         #factura_head {
             width: 100%;
             margin-bottom: 40px;
         }
-    
         .info_empresa {
             width: 100%;
             text-align: center;
         }
-    
         .info_empresa .h2 {
             font-family: 'BrixSansBlack', sans-serif;
             font-size: 16pt;
             color: #0a4661;
         }
-    
-        /* Tablas */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -60,40 +52,29 @@
             border-radius: 10px;
             overflow: hidden;
         }
-    
         table, th, td {
             border: 1px solid #ddd;
         }
-    
-        th,
-        td {
+        th, td {
             padding: 8px;
             text-align: left;
         }
-    
         th {
             background-color: #f2f2f2;
             font-size: 10pt;
             text-align: center;
         }
-    
         td {
             font-size: 9pt;
         }
-    
-        /* Imágenes generales */
         img {
             max-width: 100%;
             height: auto;
         }
-    
-        /* Firmas específicas */
         td img {
-            width: 60px; /* Reducir tamaño de las firmas */
+            width: 60px;
             height: auto;
         }
-    
-        /* Pie de página */
         footer {
             position: fixed;
             bottom: 0;
@@ -105,8 +86,6 @@
             font-size: 9pt;
             padding: 5px;
         }
-    
-        /* Alertas */
         .alert {
             padding: 15px;
             background-color: #f0f8ff;
@@ -115,24 +94,17 @@
             margin-bottom: 20px;
             font-size: 10pt;
         }
-    
         .alert-info {
             color: #0056b3;
         }
-    
-        /* Gráficos */
         .chart-container {
             text-align: center;
             margin-top: 30px;
         }
-    
-        /* Reducir la última imagen un 20% */
         .chart-container img:last-of-type {
-            width: 80%; /* Reducir el tamaño al 80% */
+            width: 80%;
             height: auto;
         }
-
-        /* Salto de página antes del contenedor de resultados */
         .page-break {
             page-break-before: always;
         }
@@ -189,16 +161,11 @@
                 @endforeach
             </tbody>
         </table>
-    
     </div>
-   
+
     <!-- Agregar la clase page-break para forzar el salto de página -->
     <div class="page-break">
-        
-        
         <div class="container">
-            <!-- Información sobre el total de residentes y firmados -->
-           
             <div class="alert alert-info">
                 <h1>Resultados - Quorum</h1>
                 <p><strong>Total de Copropietarios:</strong> {{ $totalResidentes }}</p>
@@ -209,11 +176,15 @@
             </div>
         </div>
 
-        <!-- Contenedor para la gráfica residentesNoFirmados -->
+        <!-- Contenedor para la gráfica -->
         <div class="chart-container">
             <img src="{{ $imagePath }}" alt="Gráfica de Residentes">
         </div>
     </div>
-</body>
 
+    <!-- Pie de página -->
+    <footer>
+        Empresa Liseth & Co. Página generada automáticamente el {{ \Carbon\Carbon::now()->format('d/m/Y') }}.
+    </footer>
+</body>
 </html>

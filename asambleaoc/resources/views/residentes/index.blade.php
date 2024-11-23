@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid mt-n10">
         <div class="card mb-4">
-            <div class="card-header">Listado</div>
+            <div class="card-header">{{ $evento }}</div>
             <div class="card-body">
                 <div class="datatable table-responsive">
                     <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">

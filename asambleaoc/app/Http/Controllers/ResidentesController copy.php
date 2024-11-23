@@ -13,8 +13,6 @@ use Intervention\Image\Facades\Image;
 use ConsoleTVs\Charts\Facades\Charts;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use App\Models\Dato;
-
 
 
 
@@ -26,7 +24,7 @@ class ResidentesController extends Controller
 {
     public function index()
     {
-        $evento = Dato::first()->evento;
+       
         // Obtener los residentes ordenados por el campo 'nombre'
         $residentes = Residente::orderBy('nombre', 'asc')->get(); // 'asc' para orden ascendente
 
@@ -38,7 +36,7 @@ class ResidentesController extends Controller
             }
         }
 
-        return view('residentes.index', compact('residentes', 'evento'));
+        return view('residentes.index', compact('residentes'));
     }
 
 

@@ -19,25 +19,29 @@ Route::get('/', function () {
 });
 
 // Rutas sin autenticación
-Route::get('/residentes', [ResidentesController::class, 'index'])->name('residentes.index');
-Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->name('residentes.edit');
-Route::put('residentes/{id}', [ResidentesController::class, 'update'])->name('residentes.update');
-Route::get('/buscar-apto', [ResidentesController::class, 'showForm'])->name('buscar.apto.form');
-Route::post('/buscar-apto', [ResidentesController::class, 'search'])->name('buscar.apto');
+
 
 // Rutas protegidas por autenticación, excepto las relacionadas con /residentes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+
+    Route::get('/residentes', [ResidentesController::class, 'index'])->name('residentes.index');
     
+    Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->name('residentes.edit');
+    Route::put('residentes/{id}', [ResidentesController::class, 'update'])->name('residentes.update');
+    Route::get('/buscar-apto', [ResidentesController::class, 'showForm'])->name('buscar.apto.form');
+    Route::post('/buscar-apto', [ResidentesController::class, 'search'])->name('buscar.apto');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     Route::delete('residentes/{id}', [ResidentesController::class, 'destroy'])->name('residentes.destroy');
     Route::get('residentes/estadisticas', [ResidentesController::class, 'estadisticasResidentes'])->name('residentes.estadisticas');
-    
+
     Route::get('/residentes/{id}/firmar', [ResidentesController::class, 'showSignatureForm'])->name('residentes.firmar');
     Route::post('/residentes/{id}/firmar', [ResidentesController::class, 'storeSignature'])->name('residentes.guardarFirma');
 
@@ -47,15 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/residentes/pdf', [ResidentesController::class, 'generarPDF'])->name('residentes.pdf');
 
 
-        
+
 
     Route::resource('datos', DatosController::class);
     Route::get('datos', [DatosController::class, 'index'])->name('datos.index');
     Route::get('datos/create', [DatosController::class, 'create'])->name('datos.create');
-
-    
-
-
 });
 
 // Rutas que requieren autenticación y verificación del correo
@@ -63,4 +63,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Aquí van las rutas adicionales que requieran autenticación y verificación del correo, si las tienes.
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

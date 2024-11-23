@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
 
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Copropietarios</title>
+    <title>Reporte de Residentes</title>
     <style>
+        /* General */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+    
         body {
             font-family: 'Verdana', sans-serif;
             font-size: 9pt;
@@ -19,16 +20,14 @@
             background-color: #f9f9f9;
             position: relative;
         }
-
+    
         h1 {
             text-align: center;
             font-size: 14pt;
-            /* Tamaño de fuente reducido */
             color: #333;
             margin: 15px 0;
-            /* Más espacio entre encabezado y título */
         }
-
+    
         #page_pdf {
             width: 95%;
             margin: 0 auto;
@@ -37,24 +36,24 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
+    
         #factura_head {
             width: 100%;
             margin-bottom: 40px;
-            /* Más espacio debajo del encabezado */
         }
-
+    
         .info_empresa {
             width: 100%;
             text-align: center;
         }
-
+    
         .info_empresa .h2 {
             font-family: 'BrixSansBlack', sans-serif;
             font-size: 16pt;
             color: #0a4661;
         }
-
+    
+        /* Tablas */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -62,29 +61,40 @@
             border-radius: 10px;
             overflow: hidden;
         }
-
+    
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+    
         th,
         td {
-            border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
-
+    
         th {
             background-color: #f2f2f2;
             font-size: 10pt;
             text-align: center;
         }
-
+    
         td {
             font-size: 9pt;
         }
-
+    
+        /* Imágenes generales */
         img {
-            width: 90px;
-            height: 60px;
+            max-width: 100%;
+            height: auto;
         }
-
+    
+        /* Firmas específicas */
+        td img {
+            width: 60px; /* Reducir tamaño de las firmas */
+            height: auto;
+        }
+    
+        /* Pie de página */
         footer {
             position: fixed;
             bottom: 0;
@@ -96,7 +106,8 @@
             font-size: 9pt;
             padding: 5px;
         }
-
+    
+        /* Alertas */
         .alert {
             padding: 15px;
             background-color: #f0f8ff;
@@ -105,13 +116,27 @@
             margin-bottom: 20px;
             font-size: 10pt;
         }
-
+    
         .alert-info {
             color: #0056b3;
         }
+    
+        /* Gráficos */
+        .chart-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+    
+        /* Reducir la última imagen un 20% */
+        .chart-container img:last-of-type {
+            width: 80%; /* Reducir el tamaño al 80% */
+            height: auto;
+        }
     </style>
+    
+    
+    
 </head>
-
 <body>
     <div id="page_pdf">
         <!-- Encabezado -->
@@ -163,20 +188,32 @@
                 @endforeach
             </tbody>
         </table>
-
     
     </div>
    
+    <div class="container">
+        <h1>Resultados - Quorum</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Total copropietarios</th>
+                    <th>Firmaron</th>
+                    <th>Porcentaje</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $totalResidentes }}</td>
+                    <td>{{ $residentesFirmados }}</td>
+                    <td>{{ number_format($porcentajeFirmados, 2) }}%</td>
+                </tr>
+            </tbody>
+        </table>
 
-   
-
-
- 
-    <!-- Pie de página -->
-    <footer>
-        Datos empresa de Liseth
-    </footer>
-
-   </body>
-
+        <!-- Contenedor para la gráfica -->
+        <div class="chart-container">
+            <img src="{{ $imagePath }}" alt="Gráfica de Residentes">
+        </div>
+    </div>
+</body>
 </html>

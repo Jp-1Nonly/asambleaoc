@@ -212,19 +212,45 @@ class ResidentesController extends Controller
     }
 
 
-    public function generarPDF()
-    {
-        $datos = Datos::first(); // Obtener la información de los datos
-        $residentes = Residente::all(); // Obtener todos los residentes
-        
-        // Generar el PDF usando la vista 'residentes.pdf'
-        $pdf = PDF::loadView('residentes.pdf', compact('datos', 'residentes'));
-    
-        // Descargar el archivo PDF
-        return $pdf->download('residentes.pdf');
-    }
-    
+ public function generarPDF()
+{
+    $datos = Datos::first(); // Información de la empresa
+    $residentes = Residente::all(); // Obtener todos los residentes
+    $totalResidentes = $residentes->count(); // Contar total de residentes
+    $residentesFirmados = $residentes->whereNotNull('captura')->count(); // Contar residentes firmados
+    $porcentajeFirmados = $totalResidentes > 0 ? ($residentesFirmados / $totalResidentes) * 100 : 0;
 
+    // Generar la URL de la gráfica
+    $chartUrl = "https://quickchart.io/chart?c=" . urlencode(json_encode([
+        'type' => 'pie',
+        'data' => [
+            'labels' => ['Copropietarios Firmados', 'Copropietarios No Firmados'],
+            'datasets' => [[
+                'data' => [$residentesFirmados, $totalResidentes - $residentesFirmados],
+                'backgroundColor' => ['#36A2EB', '#505163'],
+                'borderColor' => ['#36A2EB', '#505163'],
+                'borderWidth' => 1
+            ]]
+        ]
+    ]));
+
+    // Descargar la imagen de la gráfica
+    $imageContent = file_get_contents($chartUrl);
+    $imagePath = storage_path('app/public/residente_graphic.png');
+    file_put_contents($imagePath, $imageContent); // Guardar la imagen localmente
+
+    // Crear el PDF con la gráfica
+    $pdf = Pdf::loadView('residentes.pdf', compact(
+        'datos',
+        'residentes',
+        'totalResidentes',
+        'residentesFirmados',
+        'porcentajeFirmados',
+        'imagePath' // Pasamos la ruta de la imagen
+    ));
+
+    return $pdf->download('residentes.pdf');
+}
     
     
 }

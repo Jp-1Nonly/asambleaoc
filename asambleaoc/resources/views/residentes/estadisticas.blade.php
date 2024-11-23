@@ -8,8 +8,8 @@
     <div class="container">
         <!-- Información sobre el total de residentes y firmados -->
         <div class="alert alert-info">
-            <p><strong>Total de Residentes:</strong> {{ $totalResidentes }}</p>
-            <p><strong>Residentes Firmados:</strong> {{ $residentesFirmados }}
+            <p><strong>Total de Copropietarios:</strong> {{ $totalResidentes }}</p>
+            <p><strong>Copropietarios Firmados:</strong> {{ $residentesFirmados }} =>
                 ({{ number_format($porcentajeFirmados, 2) }}%)</p>
         </div>
 
@@ -30,7 +30,7 @@
     var residentesChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Residentes Firmados', 'Residentes No Firmados'],
+            labels: ['Copropietarios Firmados', 'Copropietarios No Firmados'],
             datasets: [{
                 label: 'Porcentaje de Firmados',
                 data: [{{ $residentesFirmados }}, {{ $totalResidentes - $residentesFirmados }}],

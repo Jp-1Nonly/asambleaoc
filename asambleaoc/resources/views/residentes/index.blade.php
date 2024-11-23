@@ -48,7 +48,11 @@
                         </tbody>
                     </table>
                 </div>
+                
             </div>
+           
         </div>
+        <a href="{{ route('residentes.pdf') }}" class="btn btn-danger btn-sm">Descargar&nbsp;<i class="fa-regular fa-file-pdf"></i></a>
+
     </div>
 @endsection

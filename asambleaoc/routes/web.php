@@ -44,9 +44,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/create-residentes', [ResidentesController::class, 'create'])->name('residentes.create');
     Route::post('/upload', [ResidentesController::class, 'upload'])->name('excel.upload');
 
+    Route::get('/residentes/pdf', [ResidentesController::class, 'generarPDF'])->name('residentes.pdf');
+
+
+        
+
     Route::resource('datos', DatosController::class);
     Route::get('datos', [DatosController::class, 'index'])->name('datos.index');
     Route::get('datos/create', [DatosController::class, 'create'])->name('datos.create');
+
+    
 
 
 });

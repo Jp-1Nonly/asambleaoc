@@ -2,10 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Datos;
 use Illuminate\Http\Request;
 use App\Models\Residente;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
+use ConsoleTVs\Charts\Facades\Charts;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+
+
+
+
+
 
 class ResidentesController extends Controller
 {
@@ -13,6 +26,7 @@ class ResidentesController extends Controller
     {
         // Obtener los residentes ordenados por el campo 'nombre'
         $residentes = Residente::orderBy('nombre', 'asc')->get(); // 'asc' para orden ascendente
+
 
         // Procesar la captura de cada residente
         foreach ($residentes as $residente) {
@@ -90,41 +104,41 @@ class ResidentesController extends Controller
             'coeficiente' => 'required|string',
             'captura' => 'nullable|string',
         ]);
-    
+
         // Buscar el residente por su ID
         $residente = residente::findOrFail($id);
-    
+
         // Actualizar los datos del residente
         $residente->nombre = $request->input('nombre');
         $residente->tipo = $request->input('tipo');
         $residente->apto = $request->input('apto');
         $residente->coeficiente = $request->input('coeficiente');
-    
+
         // Procesar la captura de foto, si se envió
         if ($request->filled('captura')) {
             $imagenBase64 = $request->input('captura');
-    
+
             // Asegúrate de que el base64 es válido y solo tiene la parte de datos de imagen
             if (strpos($imagenBase64, 'data:image/png;base64,') === 0) {
                 $imagenCodificada = str_replace('data:image/png;base64,', '', $imagenBase64);
             } else {
                 return redirect()->back()->withErrors(['msg' => 'Formato de imagen no válido.']);
             }
-    
+
             // Almacena la imagen en formato base64 en el campo 'captura'
             $residente->captura = $imagenCodificada;
         }
-    
+
         // Guardar los cambios en la base de datos
         $residente->save();
-    
+
         // Realizar la búsqueda de todos los residentes después de la actualización
         $residentes = residente::where('apto', $residente->apto)->get(); // Aquí puedes ajustar la búsqueda
-    
+
         // Redirigir a la vista de resultados con los residentes
         return view('residentes.resultado', compact('residentes'))->with('success', 'Residente actualizado exitosamente.');
     }
-    
+
 
 
     public function create()
@@ -196,4 +210,21 @@ class ResidentesController extends Controller
         // Redirigir a la vista 'residentes.resultado' con los residentes encontrados
         return view('residentes.resultado', compact('residentes'));
     }
+
+
+    public function generarPDF()
+    {
+        $datos = Datos::first(); // Obtener la información de los datos
+        $residentes = Residente::all(); // Obtener todos los residentes
+        
+        // Generar el PDF usando la vista 'residentes.pdf'
+        $pdf = PDF::loadView('residentes.pdf', compact('datos', 'residentes'));
+    
+        // Descargar el archivo PDF
+        return $pdf->download('residentes.pdf');
+    }
+    
+
+    
+    
 }

@@ -19,6 +19,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.0.0/signature_pad.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
         integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -78,7 +80,10 @@
                         </a>
                     </div>
                 </div>
-
+                <div>
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/logo.png'))) }}"
+                        width="70" height="70" alt="">
+                </div>
                 <div class="sidenav-footer">
                     <div class="sidenav-footer-content">
                         <form method="POST" action="{{ route('logout') }}">

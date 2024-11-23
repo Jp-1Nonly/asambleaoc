@@ -24,55 +24,55 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
     <script>
-        Chart.register(ChartDataLabels);
-    
-        var ctx = document.getElementById('residentesChart').getContext('2d');
-        var residentesChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Residentes Firmados', 'Residentes No Firmados'],
-                datasets: [{
-                    label: 'Porcentaje de Firmados',
-                    data: [{{ $residentesFirmados }}, {{ $totalResidentes - $residentesFirmados }}],
-                    backgroundColor: ['#36A2EB', '#505163'],
-                    borderColor: ['#36A2EB', '#505163'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                animation: false, // Desactivar la animación
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw + ' (' + ((tooltipItem.raw / {{ $totalResidentes }}) * 100).toFixed(2) + '%)';
-                            }
+    Chart.register(ChartDataLabels);
+
+    var ctx = document.getElementById('residentesChart').getContext('2d');
+    var residentesChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Residentes Firmados', 'Residentes No Firmados'],
+            datasets: [{
+                label: 'Porcentaje de Firmados',
+                data: [{{ $residentesFirmados }}, {{ $totalResidentes - $residentesFirmados }}],
+                backgroundColor: ['#36A2EB', '#505163'],
+                borderColor: ['#36A2EB', '#505163'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: false, // Desactivar la animación
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw + ' (' + ((tooltipItem.raw / {{ $totalResidentes }}) * 100).toFixed(2) + '%)';
                         }
+                    }
+                },
+                datalabels: {
+                    display: true,
+                    formatter: function(value, context) {
+                        var total = context.dataset.data.reduce(function(previousValue, currentValue) {
+                            return previousValue + currentValue;
+                        }, 0);
+                        var percentage = (value / total) * 100;
+                        return percentage.toFixed(2) + '%'; // Mostrar porcentaje con 2 decimales
                     },
-                    datalabels: {
-                        display: true,
-                        formatter: function(value, context) {
-                            var total = context.dataset.data.reduce(function(previousValue, currentValue) {
-                                return previousValue + currentValue;
-                            }, 0);
-                            var percentage = (value / total) * 100;
-                            return percentage.toFixed(2) + '%'; // Mostrar porcentaje con 2 decimales
-                        },
-                        color: '#fff',
-                        font: {
-                            weight: 'bold',
-                            size: 14
-                        }
+                    color: '#fff',
+                    font: {
+                        weight: 'bold',
+                        size: 14
                     }
                 }
             }
-        });
-    </script>
-    
+        }
+    });
+</script>
+
 
     <!-- Recarga automática -->
     <script>

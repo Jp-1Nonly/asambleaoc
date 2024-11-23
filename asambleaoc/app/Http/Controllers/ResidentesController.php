@@ -229,8 +229,8 @@ class ResidentesController extends Controller
             'type' => 'pie',
             'data' => [
                 'labels' => [
-                    "Firmados: $residentesFirmados  ($porcentajeFirmados%)", 
-                    "No Firmados: $residentesNoFirmados ($porcentajeNoFirmados%)"
+                    sprintf("Firmados: %d (%.2f%%)", $residentesFirmados, $porcentajeFirmados),
+                    sprintf("No Firmados: %d (%.2f%%)", $residentesNoFirmados, $porcentajeNoFirmados),
                 ],
                 'datasets' => [[
                     'data' => [$residentesFirmados, $residentesNoFirmados],
@@ -244,13 +244,7 @@ class ResidentesController extends Controller
                 'plugins' => [
                     'datalabels' => [
                         'display' => true,
-                        'formatter' => function($value, $context) {
-                            // Calcular porcentaje en el gráfico
-                            $total = $context.dataset.data[0] + $context.dataset.data[1]; // Sumar los valores
-                            $percentage = ($value / $total) * 100;
-                            return number_format($percentage, 2) . '%'; // Formatear a 2 decimales
-                        },
-                        'color' => '#FFF', // Texto blanco
+                        'color' => '#FFF',
                         'font' => [
                             'weight' => 'bold',
                             'size' => 16
@@ -259,6 +253,7 @@ class ResidentesController extends Controller
                 ]
             ]
         ]));
+        
     
         // Descargar la imagen de la gráfica
         $imageContent = file_get_contents($chartUrl);

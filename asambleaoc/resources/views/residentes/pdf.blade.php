@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -132,10 +131,12 @@
             width: 80%; /* Reducir el tamaño al 80% */
             height: auto;
         }
+
+        /* Salto de página antes del contenedor de resultados */
+        .page-break {
+            page-break-before: always;
+        }
     </style>
-    
-    
-    
 </head>
 <body>
     <div id="page_pdf">
@@ -191,26 +192,24 @@
     
     </div>
    
-    <div class="container">
-        <h1>Resultados - Quorum</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Total copropietarios</th>
-                    <th>Firmaron</th>
-                    <th>Porcentaje</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ $totalResidentes }}</td>
-                    <td>{{ $residentesFirmados }}</td>
-                    <td>{{ number_format($porcentajeFirmados, 2) }}%</td>
-                </tr>
-            </tbody>
-        </table>
+    <!-- Agregar la clase page-break para forzar el salto de página -->
+    <div class="page-break">
+        
+        
+        <div class="container">
+            <!-- Información sobre el total de residentes y firmados -->
+           
+            <div class="alert alert-info">
+                <h1>Resultados - Quorum</h1>
+                <p><strong>Total de Copropietarios:</strong> {{ $totalResidentes }}</p>
+                <p><strong>Copropietarios Firmados:</strong> {{ $residentesFirmados }} =>
+                    ({{ number_format($porcentajeFirmados, 2) }}%)</p>
+                <p><strong>Copropietarios No Firmados:</strong> {{ $residentesNoFirmados }} =>
+                        ({{ number_format($porcentajeNoFirmados, 2) }}%)</p>
+            </div>
+        </div>
 
-        <!-- Contenedor para la gráfica -->
+        <!-- Contenedor para la gráfica residentesNoFirmados -->
         <div class="chart-container">
             <img src="{{ $imagePath }}" alt="Gráfica de Residentes">
         </div>

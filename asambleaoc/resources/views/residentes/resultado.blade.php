@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('name', 'Resultado de la Búsqueda')
+@section('name', 'Estado de la firma')
 
 @section('content')
 <div class="container-fluid mt-n10">

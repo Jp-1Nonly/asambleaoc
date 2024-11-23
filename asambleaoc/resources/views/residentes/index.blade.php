@@ -16,7 +16,7 @@
                                 <th>Apto</th>
                                 <th>Coeficiente</th>
                                 <th>Firma</th>
-                                <th>Capturar</th>
+                           <!--     <th>Capturar</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -27,22 +27,22 @@
                                     <td>{{ $residente->tipo }}</td>
                                     <td>{{ $residente->apto }}</td>
                                     <td>{{ $residente->coeficiente }}</td>
-                                    <td>
+                                   <td>
                                         @if ($residente->captura)
                                             <img src="data:image/jpeg;base64,{{ $residente->captura }}"
                                                 alt="Imagen del Residente" width="90" height="60">
                                         @else
                                             Sin firmar
                                         @endif
-                                    </td>
+                                    </td> 
 
-                                    <td>
+                              <!--       <td>
                                         @if (empty($residente->captura))
-                                            <!-- Mostrar el botón solo si no tiene firma -->
+                                            
                                             <a href="{{ route('residentes.edit', $residente->id) }}"
                                                 class="btn btn-success btn-xs">Firmar</a>
                                         @endif
-                                    </td>
+                                    </td> -->
                                 </tr>
                             @endforeach
                         </tbody>

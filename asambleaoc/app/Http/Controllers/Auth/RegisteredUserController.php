@@ -28,24 +28,30 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+    
+     public function store(Request $request)
+     {
+         // Validación de datos
+         $request->validate([
+             'name' => ['required', 'string', 'max:255'],
+             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+             'password' => ['required', 'string', 'min:8', 'confirmed'],
+             'role' => ['required', 'string', 'in:Administrador,Auxiliar,Superusuario'], // Validación de roles
+         ]);
+ 
+         // Crear usuario
+         $user = User::create([
+             'name' => $request->name,
+             'email' => $request->email,
+             'password' => Hash::make($request->password),
+             'role' => $request->role,
+         ]);
+ 
+         // Asignar el rol al usuario
+         //$user->assignRole($request->role); // Asignamos el rol basado en la entrada del formulario
+ 
+         // Redirigir al login
+         return redirect()->route('login')->with('status', 'Registro con éxito. Por favor ingrese.');
+     }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
-    }
 }

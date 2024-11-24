@@ -8,8 +8,11 @@
     <div class="card mb-4">
         <div class="card-header">Sólo un registro por evento</div>
         <div class="card-header">
-            <a href="{{ route('datos.create') }}" class="btn btn-primary btn-xs">Agregar Datos</a>
+            @if($datos->isEmpty())
+                <a href="{{ route('datos.create') }}" class="btn btn-primary btn-xs">Agregar Datos</a>
+            @endif
         </div>
+        
 
         <div class="card-body">
             <div class="datatable table-responsive">

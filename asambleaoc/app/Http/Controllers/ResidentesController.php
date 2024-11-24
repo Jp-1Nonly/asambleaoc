@@ -41,6 +41,40 @@ class ResidentesController extends Controller
         return view('residentes.index', compact('residentes', 'evento'));
     }
 
+    public function indexadmin()
+    {
+        $evento = Dato::first()->evento;
+        // Obtener los residentes ordenados por el campo 'nombre'
+        $residentes = Residente::orderBy('nombre', 'asc')->get(); // 'asc' para orden ascendente
+
+
+        // Procesar la captura de cada residente
+        foreach ($residentes as $residente) {
+            if ($residente->captura) {
+                $residente->captura = ($residente->captura); // Convertir binario a base64 si es necesario
+            }
+        }
+
+        return view('residentes.indexadmin', compact('residentes', 'evento'));
+    }
+
+    public function indexaux()
+    {
+        $evento = Dato::first()->evento;
+        // Obtener los residentes ordenados por el campo 'nombre'
+        $residentes = Residente::orderBy('nombre', 'asc')->get(); // 'asc' para orden ascendente
+
+
+        // Procesar la captura de cada residente
+        foreach ($residentes as $residente) {
+            if ($residente->captura) {
+                $residente->captura = ($residente->captura); // Convertir binario a base64 si es necesario
+            }
+        }
+
+        return view('residentes.indexaux', compact('residentes', 'evento'));
+    }
+
 
 
     public function edit(string $id)

@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.appaux')
 
 @section('name', 'Proceso de firma - Asistencia')
 

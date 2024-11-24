@@ -27,8 +27,10 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-
+    //Rutas redirección por roles
     Route::get('/residentes', [ResidentesController::class, 'index'])->name('residentes.index');
+    Route::get('/residentes-admin', [ResidentesController::class, 'indexadmin'])->name('residentes.indexadmin');
+    Route::get('/residentes-aux', [ResidentesController::class, 'indexaux'])->name('residentes.indexaux');
     
     Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->name('residentes.edit');
     Route::put('residentes/{id}', [ResidentesController::class, 'update'])->name('residentes.update');

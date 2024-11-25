@@ -61,7 +61,7 @@
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Cargar Excel
                         </a>
-                        <a class="nav-link" href="{{ route('residentes.estadisticas') }}">
+                        <a class="nav-link" href="{{ route('residentes.estadisticasadmin') }}">
                             <div class="nav-link-icon"><i data-feather="filter"></i></div>
                             Quorum
                         </a>

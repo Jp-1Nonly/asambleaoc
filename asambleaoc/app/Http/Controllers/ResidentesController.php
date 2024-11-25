@@ -228,12 +228,24 @@ class ResidentesController extends Controller
 
     public function estadisticasResidentes()
     {
+        $evento = Dato::first()->evento;
         $nombreph = Dato::first()->nombre;
         $totalResidentes = Residente::count();
         $residentesFirmados = Residente::whereNotNull('captura')->where('captura', '!=', '')->count();
         $porcentajeFirmados = $totalResidentes > 0 ? ($residentesFirmados / $totalResidentes) * 100 : 0;
 
-        return view('residentes.estadisticas', compact('totalResidentes', 'residentesFirmados', 'porcentajeFirmados','nombreph'));
+        return view('residentes.estadisticas', compact('totalResidentes', 'residentesFirmados', 'porcentajeFirmados','nombreph','evento'));
+    }
+
+    public function estadisticasResidentesadmin()
+    {
+        $evento = Dato::first()->evento;
+        $nombreph = Dato::first()->nombre;
+        $totalResidentes = Residente::count();
+        $residentesFirmados = Residente::whereNotNull('captura')->where('captura', '!=', '')->count();
+        $porcentajeFirmados = $totalResidentes > 0 ? ($residentesFirmados / $totalResidentes) * 100 : 0;
+
+        return view('residentes.estadisticasadmin', compact('totalResidentes', 'residentesFirmados', 'porcentajeFirmados','nombreph','evento'));
     }
 
     // Mostrar el formulario para buscar el residente

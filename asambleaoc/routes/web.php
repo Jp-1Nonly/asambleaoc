@@ -43,7 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/buscar-aptoadmin', [ResidentesController::class, 'searchadmin'])->middleware('checkRole:Superusuario,Administrador')->name('buscar.aptoadmin');   
     
     
-    Route::get('residentes/estadisticas', [ResidentesController::class, 'estadisticasResidentes'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.estadisticas');
+    Route::get('residentes/estadisticas', [ResidentesController::class, 'estadisticasResidentes'])->middleware('checkRole:Superusuario')->name('residentes.estadisticas');
+    Route::get('residentes/estadisticasadmin', [ResidentesController::class, 'estadisticasResidentesadmin'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.estadisticasadmin');
 
     Route::get('/residentes/{id}/firmar', [ResidentesController::class, 'showSignatureForm'])->middleware('checkRole:Superusuario,Administrador','Auxiliar')->name('residentes.firmar');
     Route::post('/residentes/{id}/firmar', [ResidentesController::class, 'storeSignature'])->middleware('checkRole:Superusuario,Administrador','Auxiliar')->name('residentes.guardarFirma');

@@ -26,9 +26,10 @@ class ResidentesController extends Controller
 {
     public function index()
     {
+        $nombreph = Dato::first()->nombre;
         $evento = Dato::first()->evento;
         // Obtener los residentes ordenados por el campo 'nombre'
-        $residentes = Residente::orderBy('nombre', 'asc')->get(); // 'asc' para orden ascendente
+        $residentes = Residente::orderBy('nombre', 'asc', 'nombreph')->get(); // 'asc' para orden ascendente
 
 
         // Procesar la captura de cada residente
@@ -38,7 +39,7 @@ class ResidentesController extends Controller
             }
         }
 
-        return view('residentes.index', compact('residentes', 'evento'));
+        return view('residentes.index', compact('residentes', 'evento', 'nombreph'));
     }
 
     public function indexadmin()
@@ -227,11 +228,12 @@ class ResidentesController extends Controller
 
     public function estadisticasResidentes()
     {
+        $nombreph = Dato::first()->nombre;
         $totalResidentes = Residente::count();
         $residentesFirmados = Residente::whereNotNull('captura')->where('captura', '!=', '')->count();
         $porcentajeFirmados = $totalResidentes > 0 ? ($residentesFirmados / $totalResidentes) * 100 : 0;
 
-        return view('residentes.estadisticas', compact('totalResidentes', 'residentesFirmados', 'porcentajeFirmados'));
+        return view('residentes.estadisticas', compact('totalResidentes', 'residentesFirmados', 'porcentajeFirmados','nombreph'));
     }
 
     // Mostrar el formulario para buscar el residente

@@ -28,42 +28,45 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     //Rutas redirección por roles
-    Route::get('/residentes', [ResidentesController::class, 'index'])->name('residentes.index');
-    Route::get('/residentes-admin', [ResidentesController::class, 'indexadmin'])->name('residentes.indexadmin');
-    Route::get('/residentes-aux', [ResidentesController::class, 'indexaux'])->name('residentes.indexaux');
+     Route::get('/residentes', [ResidentesController::class, 'index'])->middleware('checkRole:Superusuario')->name('residentes.index');
+    Route::get('/residentes-admin', [ResidentesController::class, 'indexadmin'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.indexadmin');
+    Route::get('/residentes-aux', [ResidentesController::class, 'indexaux'])->middleware('checkRole:Superusuario,Auxiliar')->name('residentes.indexaux');
     
-    Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->name('residentes.edit');
-    Route::get('residentes/{id}/editadmin', [ResidentesController::class, 'editadmin'])->name('residentes.editadmin');
-    Route::put('residentes/{id}', [ResidentesController::class, 'update'])->name('residentes.update');
+    Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->middleware('checkRole:Superusuario,Auxiliar')->name('residentes.edit');
+    Route::get('residentes/{id}/editadmin', [ResidentesController::class, 'editadmin'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.editadmin');
+    Route::put('residentes/{id}', [ResidentesController::class, 'update'])->middleware('checkRole:Superusuario,Auxiliar')->name('residentes.update');
     Route::put('residentes/{id}/admin', [ResidentesController::class, 'updateadmin'])->name('residentes.updateadmin');
 
-    Route::get('/buscar-apto', [ResidentesController::class, 'showForm'])->name('buscar.apto.form');
-    Route::get('/buscar-aptoadmin', [ResidentesController::class, 'showFormadmin'])->name('buscar.apto.formadmin');
-    Route::post('/buscar-apto', [ResidentesController::class, 'search'])->name('buscar.apto');
-    Route::post('/buscar-aptoadmin', [ResidentesController::class, 'searchadmin'])->name('buscar.aptoadmin');
+    Route::get('/buscar-apto', [ResidentesController::class, 'showForm'])->middleware('checkRole:Superusuario,Auxiliar')->name('buscar.apto.form');
+    Route::get('/buscar-aptoadmin', [ResidentesController::class, 'showFormadmin'])->middleware('checkRole:Superusuario,Administrador')->name('buscar.apto.formadmin');
+    Route::post('/buscar-apto', [ResidentesController::class, 'search'])->middleware('checkRole:Superusuario,Auxiliar')->name('buscar.apto');
+    Route::post('/buscar-aptoadmin', [ResidentesController::class, 'searchadmin'])->middleware('checkRole:Superusuario,Administrador')->name('buscar.aptoadmin');   
     
+    
+    Route::get('residentes/estadisticas', [ResidentesController::class, 'estadisticasResidentes'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.estadisticas');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/residentes/{id}/firmar', [ResidentesController::class, 'showSignatureForm'])->middleware('checkRole:Superusuario,Administrador','Auxiliar')->name('residentes.firmar');
+    Route::post('/residentes/{id}/firmar', [ResidentesController::class, 'storeSignature'])->middleware('checkRole:Superusuario,Administrador','Auxiliar')->name('residentes.guardarFirma');
 
-    Route::delete('residentes/{id}', [ResidentesController::class, 'destroy'])->name('residentes.destroy');
-    Route::get('residentes/estadisticas', [ResidentesController::class, 'estadisticasResidentes'])->name('residentes.estadisticas');
+    
+    Route::post('/upload', [ResidentesController::class, 'upload'])->middleware('checkRole:Superusuario,Administrador')->name('excel.upload');
 
-    Route::get('/residentes/{id}/firmar', [ResidentesController::class, 'showSignatureForm'])->name('residentes.firmar');
-    Route::post('/residentes/{id}/firmar', [ResidentesController::class, 'storeSignature'])->name('residentes.guardarFirma');
-
-    Route::get('/create-residentes', [ResidentesController::class, 'create'])->name('residentes.create');
-    Route::post('/upload', [ResidentesController::class, 'upload'])->name('excel.upload');
-
-    Route::get('/residentes/pdf', [ResidentesController::class, 'generarPDF'])->name('residentes.pdf');
-
+    Route::get('/residentes/pdf', [ResidentesController::class, 'generarPDF'])->middleware('checkRole:Superusuario')->name('residentes.pdf');
+    Route::get('/create-residentes', [ResidentesController::class, 'create'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.create');
 
 
 
     Route::resource('datos', DatosController::class);
-    Route::get('datos', [DatosController::class, 'index'])->name('datos.index');
-    Route::get('datos/create', [DatosController::class, 'create'])->name('datos.create');
+    Route::get('datos', [DatosController::class, 'index'])->middleware('checkRole:Superusuario,Administrador')->name('datos.index');
+    Route::get('datos/create', [DatosController::class, 'create'])->middleware('checkRole:Superusuario,Administrador')->name('datos.create');
+
+
+    // Sin acceso
+    
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('residentes/{id}', [ResidentesController::class, 'destroy'])->name('residentes.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 // Rutas que requieren autenticación y verificación del correo

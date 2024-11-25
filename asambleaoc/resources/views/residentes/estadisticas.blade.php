@@ -1,8 +1,6 @@
 @extends('layout.app')
 
-@section('name')
-    Quorum
-@endsection
+@section('name', 'Quorum - ' . $nombreph)
 
 @section('content')
     <div class="container">

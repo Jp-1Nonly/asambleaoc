@@ -16,16 +16,16 @@ class CheckRole
      * @param  string  $role
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $role)
-{
-    // Log para depuración
-    logger('Middleware CheckRole ejecutado con rol: ' . $role);
-
-    if (!Auth::check() || Auth::user()->role !== $role) {
-        abort(403, 'No tienes permisos para acceder a esta página.');
+    public function handle($request, Closure $next, ...$roles)
+    {
+        // Verifica si el usuario tiene un rol permitido
+        if (Auth::check() && in_array(Auth::user()->role, $roles)) {
+            return $next($request); // Permite el acceso
+        }
+    
+        // Bloquea el acceso si el rol no está permitido
+        abort(403, 'No tienes permiso para acceder a esta página.');
     }
-
-    return $next($request);
-}
+    
 
 }

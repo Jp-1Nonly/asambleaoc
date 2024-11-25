@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('name', 'Copropietarios')
+@section('name', 'Copropietarios - ' . $nombreph)
 
 @section('content')
     <div class="container-fluid mt-n10">

@@ -1,6 +1,7 @@
 @extends('layout.app')
 
 @section('name', 'Proceso de firma - Asistencia')
+@section('name', 'Copropietarios - ' )
 
 @section('content')
     <div class="container-fluid mt-n10">

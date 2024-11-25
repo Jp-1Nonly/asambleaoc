@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.appadmin')
 
 @section('name', 'Proceso de firma - Asistencia')
 
@@ -12,7 +12,7 @@
                         <div class="card-body">
                             <div class="sbp-preview">
                                 <div class="sbp-preview-content">
-                                    <form action="{{ route('buscar.apto') }}" method="POST">
+                                    <form action="{{ route('buscar.aptoadmin') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
                                             <label for="apto">Número de Apartamento:</label>

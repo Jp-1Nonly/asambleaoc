@@ -33,9 +33,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/residentes-aux', [ResidentesController::class, 'indexaux'])->name('residentes.indexaux');
     
     Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->name('residentes.edit');
+    Route::get('residentes/{id}/editadmin', [ResidentesController::class, 'editadmin'])->name('residentes.editadmin');
     Route::put('residentes/{id}', [ResidentesController::class, 'update'])->name('residentes.update');
+    Route::put('residentes/{id}/admin', [ResidentesController::class, 'updateadmin'])->name('residentes.updateadmin');
+
     Route::get('/buscar-apto', [ResidentesController::class, 'showForm'])->name('buscar.apto.form');
+    Route::get('/buscar-aptoadmin', [ResidentesController::class, 'showFormadmin'])->name('buscar.apto.formadmin');
     Route::post('/buscar-apto', [ResidentesController::class, 'search'])->name('buscar.apto');
+    Route::post('/buscar-aptoadmin', [ResidentesController::class, 'searchadmin'])->name('buscar.aptoadmin');
+    
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

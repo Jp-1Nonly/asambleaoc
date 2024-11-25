@@ -86,6 +86,15 @@ class ResidentesController extends Controller
         return view('residentes.firmar', compact('residente'));
     }
 
+    public function editadmin(string $id)
+    {
+        // Obtener el residente a editar
+        $residente = residente::findOrFail($id);
+
+        // Retornar la vista de edición con los datos del residente
+        return view('residentes.firmaradmin', compact('residente'));
+    }
+
 
     //Ruta para la vista del administrador
     public function updateadmin(Request $request, $id)
@@ -127,7 +136,7 @@ class ResidentesController extends Controller
         // Guardar los cambios en la base de datos
         $residente->save();
 
-        return redirect()->route('residentes.index')->with('success', 'residente actualizado exitosamente.');
+        return redirect()->route('residentes.indexadmin')->with('success', 'residente actualizado exitosamente.');
     }
 
     //RUTA PARA EL AUXILIAR
@@ -231,6 +240,11 @@ class ResidentesController extends Controller
         return view('residentes.buscar');
     }
 
+    public function showFormadmin()
+    {
+        return view('residentes.buscaradmin');
+    }
+
 
 
     // Procesar la búsqueda
@@ -247,6 +261,21 @@ class ResidentesController extends Controller
         // Redirigir a la vista 'residentes.resultado' con los residentes encontrados
         return view('residentes.resultado', compact('residentes'));
     }
+
+     // Procesar la búsqueda
+     public function searchadmin(Request $request)
+     {
+         // Validar que se ingrese un número de apartamento como cadena (varchar)
+         $request->validate([
+             'apto' => 'required|string|max:255', // Aceptar texto, sin límite numérico
+         ]);
+ 
+         // Buscar todos los residentes por el número de apartamento
+         $residentes = Residente::where('apto', $request->input('apto'))->get();
+ 
+         // Redirigir a la vista 'residentes.resultado' con los residentes encontrados
+         return view('residentes.resultadoadmin', compact('residentes'));
+     }
 
 
     public function generarPDF()

@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.appadmin')
 
 @section('name', 'Actualizar Datos PH - Evento')
 

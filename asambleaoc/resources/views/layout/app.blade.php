@@ -31,15 +31,14 @@
     <nav class="topnav navbar navbar-expand shadow navbar-light bg-white" id="sidenavAccordion">
 
         <div class="page-header-icon"></div>
-        <a class="navbar-brand d-none d-sm-block" href="#!">
-            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}
+        <a class="navbar-brand d-none d-sm-block">Asamblea PH
         </a>
-
 
         <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"
             href="#"><i data-feather="menu"></i></button>
 
         <ul class="navbar-nav align-items-center ml-auto">
+
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -55,7 +54,10 @@
             <nav class="sidenav shadow-right sidenav-light">
                 <div class="sidenav-menu">
                     <div class="nav accordion" id="accordionSidenav">
-
+                        <div class="sidenav-menu-heading">Rol:
+                            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->role : 'Copropietario' }}<br>Usuario:
+                            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}
+                        </div>
 
                         <div class="sidenav-menu-heading">Administrar</div>
                         <a class="nav-link" href="{{ route('residentes.index') }}">
@@ -80,21 +82,10 @@
                         </a>
                     </div>
                 </div>
-                <div>
+                <div
+                    style="display: flex; justify-content: center; align-items: center; height: 150px; border: 1px solid #ddd; background-color: #f9f9f9;">
                     <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/logo.png'))) }}"
-                        width="70" height="70" alt="">
-                </div>
-                <div class="sidenav-footer">
-                    <div class="sidenav-footer-content">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();"
-                                class="menu-link">
-                                <span> Salir</span>
-                            </a>
-                        </form>
-                    </div>
+                        width="70" height="70" alt="Logo">
                 </div>
 
             </nav>

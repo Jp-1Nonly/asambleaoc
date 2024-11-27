@@ -16,43 +16,39 @@
                                 <th>Apto</th>
                                 <th>Coeficiente</th>
                                 <th>Firma</th>
-                           <!--     <th>Capturar</th> -->
+                                <th>Foto</th>
+                                <!--     <th>Capturar</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($residentes as $residente)
                                 <tr>
-
                                     <td>{{ $residente->nombre }}</td>
                                     <td>{{ $residente->tipo }}</td>
                                     <td>{{ $residente->apto }}</td>
                                     <td>{{ $residente->coeficiente }}</td>
-                                   <td>
+                                    <td>
                                         @if ($residente->captura)
-                                            <img src="data:image/jpeg;base64,{{ $residente->captura }}"
-                                                alt="Imagen del Residente" width="90" height="60">
+                                        <img src="data:image/png;base64,{{ $residente->captura }}" alt="Firma del Residente" style="max-width: 80px;"/>
                                         @else
                                             Sin firmar
                                         @endif
-                                    </td> 
-
-                              <!--       <td>
-                                        @if (empty($residente->captura))
-                                            
-                                            <a href="{{ route('residentes.edit', $residente->id) }}"
-                                                class="btn btn-success btn-xs">Firmar</a>
+                                    </td>
+                                    <td>
+                                        @if ($residente->photo)
+                                        <img src="data:image/png;base64,{{ $residente->photo }}" alt="Firma del Residente" style="max-width: 80px;"/>
                                         @endif
-                                    </td> -->
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-                
+
             </div>
-           
+
         </div>
-    
+
 
     </div>
 @endsection

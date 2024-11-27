@@ -9,22 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('residentes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->string('tipo')->nullable();
             $table->string('apto');
-            $table->string('coeficiente'); // Permitir un valor predeterminado
-            $table->longText('captura')->nullable();
+            $table->string('coeficiente');
+            $table->longText('firma')->nullable(); // Campo para almacenar la firma como Base64
+            $table->longText('photo')->nullable(); // Campo para almacenar la foto como Base64
             $table->timestamps();
         });
-
-        Schema::table('residentes', function (Blueprint $table) {
-            $table->longBlob('captura')->nullable();  // Asegúrate de que la columna permita valores nulos si no es obligatoria
-        });
-        
     }
 
     /**

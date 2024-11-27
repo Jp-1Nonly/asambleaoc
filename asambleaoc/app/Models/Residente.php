@@ -17,5 +17,6 @@ class Residente extends Model
         'apto',
         'coeficiente',
         'captura',
+        'photo',
     ];
 }

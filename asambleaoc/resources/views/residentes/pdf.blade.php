@@ -141,6 +141,7 @@
                     <th>Apto</th>
                     <th>Coeficiente</th>
                     <th>Firma</th>
+                    <th>Foto</th>
                 </tr>
             </thead>
             <tbody>
@@ -150,13 +151,19 @@
                         <td>{{ $residente->tipo }}</td>
                         <td>{{ $residente->apto }}</td>
                         <td>{{ $residente->coeficiente }}</td>
-                        <td class="textcenter">
+                        <td style="text-align: center;">
                             @if ($residente->captura)
                                 <img src="data:image/jpeg;base64,{{ $residente->captura }}" alt="Firma">
                             @else
                                 Sin firmar
                             @endif
                         </td>
+                        <td style="text-align: center;">
+                            @if ($residente->photo)
+                                <img src="data:image/png;base64,{{ $residente->photo }}" alt="Firma del Residente" style="max-width: 80px; display: block; margin: 0 auto;" />
+                            @endif
+                        </td>
+                        
                     </tr>
                 @endforeach
             </tbody>

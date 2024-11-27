@@ -17,6 +17,7 @@
                                 <th>Apartamento</th>
                                 <th>Coeficiente</th>
                                 <th>Firma</th>
+                                <th>Foto</th>
                                 <th>Autorización tratamiento de datos</th>
                             </tr>
                         </thead>
@@ -35,6 +36,7 @@
                                             Sin firmar
                                         @endif
                                     </td>
+                                    <td></td>
 
                                     <td>
                                         @if (empty($residente->captura))
@@ -54,6 +56,7 @@
                                             </a>
                                         @endif
                                     </td>
+                                   
                                 </tr>
                             @endforeach
                         </tbody>

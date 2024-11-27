@@ -32,7 +32,7 @@ class ResidentesController extends Controller
         $residentes = Residente::orderBy('nombre', 'asc', 'nombreph')->get(); // 'asc' para orden ascendente
 
 
-        // Procesar la captura de cada residente
+        // Procesar la firma de cada residente
         foreach ($residentes as $residente) {
             if ($residente->captura) {
                 $residente->captura = ($residente->captura); // Convertir binario a base64 si es necesario
@@ -49,7 +49,7 @@ class ResidentesController extends Controller
         $residentes = Residente::orderBy('nombre', 'asc')->get(); // 'asc' para orden ascendente
 
 
-        // Procesar la captura de cada residente
+        // Procesar la firma de cada residente
         foreach ($residentes as $residente) {
             if ($residente->captura) {
                 $residente->captura = ($residente->captura); // Convertir binario a base64 si es necesario
@@ -66,7 +66,7 @@ class ResidentesController extends Controller
         $residentes = Residente::orderBy('nombre', 'asc')->get(); // 'asc' para orden ascendente
 
 
-        // Procesar la captura de cada residente
+        // Procesar la firma de cada residente
         foreach ($residentes as $residente) {
             if ($residente->captura) {
                 $residente->captura = ($residente->captura); // Convertir binario a base64 si es necesario
@@ -97,7 +97,6 @@ class ResidentesController extends Controller
     }
 
 
-    //Ruta para la vista del administrador
     public function updateadmin(Request $request, $id)
     {
         // Validar los datos
@@ -106,39 +105,55 @@ class ResidentesController extends Controller
             'tipo' => 'required|string',
             'apto' => 'required|string',
             'coeficiente' => 'required|string',
-            'captura' => 'nullable|string',
+            'captura' => 'nullable|string', // Campo para la firma (captura)
+            'photo' => 'nullable|string', // Campo para la foto
         ]);
-
+    
         // Buscar el residente por su ID
         $residente = residente::findOrFail($id);
-
-        // Actualizar los datos del residente
-
+    
+        // Actualizar los datos básicos
         $residente->nombre = $request->input('nombre');
         $residente->tipo = $request->input('tipo');
         $residente->apto = $request->input('apto');
         $residente->coeficiente = $request->input('coeficiente');
-
-        // Procesar la captura de foto, si se envió
+    
+        // Procesar la captura de firma (campo 'captura'), si se envió
         if ($request->filled('captura')) {
-            $imagenBase64 = $request->input('captura');
-
-            // Asegúrate de que el base64 es válido y solo tiene la parte de datos de imagen
-            if (strpos($imagenBase64, 'data:image/png;base64,') === 0) {
-                $imagenCodificada = str_replace('data:image/png;base64,', '', $imagenBase64);
+            $firmaBase64 = $request->input('captura');
+    
+            // Verificar que la firma sea válida
+            if (strpos($firmaBase64, 'data:image/png;base64,') === 0) {
+                // Eliminar la cabecera 'data:image/png;base64,' de la cadena base64
+                $firmaCodificada = str_replace('data:image/png;base64,', '', $firmaBase64);
+                $residente->captura = $firmaCodificada; // Asignar la firma codificada
             } else {
-                return redirect()->back()->withErrors(['msg' => 'Formato de imagen no válido.']);
+                return redirect()->back()->withErrors(['msg' => 'Formato de firma no válido.']);
             }
-
-            // Almacena la imagen en formato base64 en el campo 'captura'
-            $residente->captura = $imagenCodificada;
         }
-
+    
+        // Procesar la captura de foto, si se envió
+        if ($request->filled('photo')) {
+            $photoBase64 = $request->input('photo');
+    
+            // Verificar que la foto sea válida
+            if (strpos($photoBase64, 'data:image/png;base64,') === 0) {
+                // Eliminar la cabecera 'data:image/png;base64,' de la cadena base64
+                $photoCodificada = str_replace('data:image/png;base64,', '', $photoBase64);
+                $residente->photo = $photoCodificada; // Asignar la foto codificada
+            } else {
+                return redirect()->back()->withErrors(['msg' => 'Formato de foto no válido.']);
+            }
+        }
+    
         // Guardar los cambios en la base de datos
         $residente->save();
-
-        return redirect()->route('residentes.indexadmin')->with('success', 'residente actualizado exitosamente.');
+    
+        return redirect()->route('residentes.indexadmin')->with('success', 'Residente actualizado exitosamente.');
     }
+    
+    
+    
 
     //RUTA PARA EL AUXILIAR
     public function update(Request $request, $id)

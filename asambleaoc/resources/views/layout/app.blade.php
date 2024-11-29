@@ -80,6 +80,11 @@
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Configuración
                         </a>
+                        <a class="nav-link" href="{{ route('opciones.index') }}">
+                            <div class="nav-link-icon"><i data-feather="tool"></i></div>
+                            Preguntas
+                        </a>
+                       
                     </div>
                 </div>
                 <div

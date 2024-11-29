@@ -17,6 +17,7 @@
                                 <th>Apartamento</th>
                                 <th>Coeficiente</th>
                                 <th>Firma</th>
+                                <th>Foto</th>
                                 <th>Autorización tratamiento de datos</th>
                             </tr>
                         </thead>
@@ -33,6 +34,11 @@
                                            
                                         @else
                                             Sin firmar
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($residente->photo)
+                                        <img src="data:image/png;base64,{{ $residente->photo }}" alt="Firma del Residente" style="max-width: 80px;"/>
                                         @endif
                                     </td>
 

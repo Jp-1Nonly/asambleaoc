@@ -16,12 +16,6 @@ use Dompdf\Options;
 use App\Models\Dato;
 
 
-
-
-
-
-
-
 class ResidentesController extends Controller
 {
     public function index()

@@ -16,6 +16,7 @@
                                 <th>Apto</th>
                                 <th>Coeficiente</th>
                                 <th>Firma</th>
+                                <th>Foto</th>
                            <!--     <th>Capturar</th> -->
                             </tr>
                         </thead>
@@ -35,14 +36,12 @@
                                             Sin firmar
                                         @endif
                                     </td>
-
-                              <!--       <td>
-                                        @if (empty($residente->captura))
-                                            
-                                            <a href="{{ route('residentes.edit', $residente->id) }}"
-                                                class="btn btn-success btn-xs">Firmar</a>
+                                 
+                                    <td>
+                                        @if ($residente->photo)
+                                        <img src="data:image/png;base64,{{ $residente->photo }}" alt="Firma del Residente" style="max-width: 80px;"/>
                                         @endif
-                                    </td> -->
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

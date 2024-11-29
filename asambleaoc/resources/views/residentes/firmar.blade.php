@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.appaux')
 
 @section('name', 'Firmar')
 
@@ -37,13 +37,14 @@
                                     <label for="tipo_residente" class="col-form-label col-lg-4">Tipo</label>
                                     <div class="col-lg-8">
                                         <select name="tipo" id="tipo" class="form-control">
-                                            <option value="Propietario" {{ $residente->tipo === 'Propietario' ? 'selected' : '' }}>Propietario</option>
-                                            <option value="Delegado" {{ $residente->tipo === 'Delegado' ? 'selected' : '' }}>Delegado</option>
+                                            <option value="Propietario"
+                                                {{ $residente->tipo === 'Propietario' ? 'selected' : '' }}>Propietario
+                                            </option>
+                                            <option value="Delegado"
+                                                {{ $residente->tipo === 'Delegado' ? 'selected' : '' }}>Delegado</option>
                                         </select>
                                     </div>
                                 </div>
-                                
-
                             </div>
 
                             <!-- Segunda columna -->
@@ -60,7 +61,7 @@
                                     <label for="coeficiente" class="col-form-label col-lg-4">Coeficiente</label>
                                     <div class="col-lg-6">
                                         <input class="form-control" id="coeficiente" type="text" name="coeficiente"
-                                            placeholder="Ingresa el coeficiente" value="{{ $residente->coeficiente }}"
+                                            placeholder="Ingresa el coeficiente" value="{{ $residente->coeficiente }} "
                                             readonly>
                                     </div>
                                 </div>
@@ -81,9 +82,24 @@
                                         <input type="hidden" id="captura" name="captura"><br>
                                     </div>
                                 </div>
+                                <!-- Campo de Foto -->
+                                <div class="signature-container text-center">
+                                    <label for="photo" class="col-form-label col-lg-12">Foto</label>
+                                    <div class="col-lg-12">
+                                        <video id="video" width="360" height="180" autoplay></video>
+                                        <div>
+                                            <button type="button" id="capturePhoto" class="btn btn-warning btn-xs">Tomar
+                                                Foto</button>
+                                        </div>
+                                        <canvas id="photoCanvas" width="360" height="180"
+                                            style="display: none;"></canvas>
+                                        <input type="hidden" id="photo" name="photo">
+                                        <br>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-
 
                         <div class="form-group row mb-0">
                             <div class="offset-lg-2 col-lg-8 text-lg-center">
@@ -104,13 +120,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Configuración para la firma
             const canvas = document.getElementById('canvas');
             const context = canvas.getContext('2d');
             const takePhotoButton = document.getElementById('takePhoto');
             const capturaInput = document.getElementById('captura');
             let isDrawing = false;
 
-            // Funciones comunes para dibujar
+            // Funciones para el dibujo de la firma
             function startDrawing(event) {
                 isDrawing = true;
                 draw(event);
@@ -128,7 +145,6 @@
                 context.strokeStyle = 'black';
                 const rect = canvas.getBoundingClientRect();
 
-                // Asegurarse de obtener las coordenadas correctas según el dispositivo
                 const x = (event.clientX || event.touches[0].clientX) - rect.left;
                 const y = (event.clientY || event.touches[0].clientY) - rect.top;
 
@@ -138,28 +154,26 @@
                 context.moveTo(x, y);
             }
 
-            // Para dispositivos de escritorio (Mouse)
+            // Manejo del evento para el mouse
             canvas.addEventListener('mousedown', startDrawing);
             canvas.addEventListener('mouseup', stopDrawing);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseleave', stopDrawing);
 
-            // Para dispositivos móviles (Táctil)
+            // Manejo del evento para dispositivos táctiles
             canvas.addEventListener('touchstart', function(event) {
-                event.preventDefault(); // Evita el comportamiento predeterminado del navegador
+                event.preventDefault();
                 startDrawing(event);
             });
             canvas.addEventListener('touchend', stopDrawing);
             canvas.addEventListener('touchmove', function(event) {
-                event.preventDefault(); // Evita el desplazamiento mientras se dibuja
+                event.preventDefault();
                 draw(event);
             });
 
             takePhotoButton.addEventListener('click', function() {
                 const dataURL = canvas.toDataURL('image/png');
-                capturaInput.value = dataURL; // Asignar el valor al campo 'captura'
-                console.log(capturaInput.value); // Verificar el contenido
-
+                capturaInput.value = dataURL; // Asignar la firma al campo 'captura'
                 Swal.fire({
                     toast: true,
                     icon: 'success',
@@ -172,12 +186,45 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuración para la captura de fotos
+            const video = document.getElementById('video');
+            const photoCanvas = document.getElementById('photoCanvas');
+            const photoContext = photoCanvas.getContext('2d');
+            const capturePhotoButton = document.getElementById('capturePhoto');
+            const photoInput = document.getElementById('photo');
+
+            // Inicialización del video
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error('Error al acceder a la cámara:', err);
+                });
+
+            capturePhotoButton.addEventListener('click', function() {
+                photoContext.drawImage(video, 0, 0, photoCanvas.width, photoCanvas.height);
+                const photoDataURL = photoCanvas.toDataURL('image/png');
+                photoInput.value = photoDataURL; // Asignar la foto al campo oculto
+
+                Swal.fire({
+                    toast: true,
+                    icon: 'success',
+                    title: '¡Foto tomada!',
+                    text: 'Exitosamente.',
+                    showConfirmButton: false,
+                    timer: 1800
+                });
+            });
+        });
+    </script>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            /* Desactiva el desplazamiento en el body */
         }
 
         .signature-container {
@@ -185,7 +232,6 @@
             border-radius: 5px;
             padding: 10px;
             margin-bottom: 20px;
-
         }
 
         canvas {
@@ -193,23 +239,10 @@
             display: block;
             margin: 0 auto;
             touch-action: none;
-            /* Evita el scrolling mientras se dibuja */
         }
 
         button {
             margin: 5px 0;
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:disabled {
-            background-color: #ccc;
-
         }
     </style>
-
 @endsection

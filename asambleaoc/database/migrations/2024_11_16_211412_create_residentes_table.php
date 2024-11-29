@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('tipo')->nullable();
             $table->string('apto');
             $table->string('coeficiente');
-            $table->longText('firma')->nullable(); // Campo para almacenar la firma como Base64
-            $table->longText('photo')->nullable(); // Campo para almacenar la foto como Base64
+            $table->longBlob('firma')->nullable(); // Campo para almacenar la firma como Base64
+            $table->longBlob('photo')->nullable(); // Campo para almacenar la foto como Base64
             $table->timestamps();
         });
     }

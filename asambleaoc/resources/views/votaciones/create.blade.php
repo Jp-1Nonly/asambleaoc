@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.appmin')
 
 @section('name', 'Copropietarios - ' . $nombreph)
 

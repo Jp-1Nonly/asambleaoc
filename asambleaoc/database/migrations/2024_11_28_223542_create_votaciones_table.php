@@ -10,11 +10,17 @@ class CreateVotacionesTable extends Migration
     {
         Schema::create('votaciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('opcion_id')->constrained()->onDelete('cascade');
-            $table->foreignId('residente_id')->constrained('residentes')->onDelete('cascade');
-            $table->timestamp('fecha_voto')->useCurrent();
+            $table->unsignedBigInteger('id_usuario');
+            $table->unsignedBigInteger('id_pregunta');
+            $table->unsignedBigInteger('id_opcion');
             $table->timestamps();
+        
+            // Llaves foráneas
+            $table->foreign('id_usuario')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('id_pregunta')->references('id')->on('preguntas')->onDelete('cascade');
+            $table->foreign('id_opcion')->references('id')->on('opciones')->onDelete('cascade');
         });
+        
     }
 
     public function down()

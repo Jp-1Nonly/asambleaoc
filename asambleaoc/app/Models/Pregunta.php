@@ -13,10 +13,14 @@ class Pregunta extends Model
         'pregunta', 'estado', // Incluir el campo 'estado' en fillable
     ];
 
+
+
     public function opciones()
     {
-        return $this->hasMany(Opcion::class);
+        return $this->hasMany(Opcion::class, 'pregunta_id');
     }
+
+
 
     
 }

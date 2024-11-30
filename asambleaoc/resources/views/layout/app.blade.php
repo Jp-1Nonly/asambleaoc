@@ -80,10 +80,11 @@
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Configuración
                         </a>
-                        <a class="nav-link" href="{{ route('opciones.index') }}">
+                        <a class="nav-link" href="{{ route('votaciones.resultadosver') }}">
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
-                            Preguntas
+                            Resultados
                         </a>
+                      
                        
                     </div>
                 </div>

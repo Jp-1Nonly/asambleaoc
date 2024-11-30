@@ -6,38 +6,61 @@ namespace App\Http\Controllers;
 use App\Models\Opcion;
 use App\Models\Pregunta;
 use Illuminate\Http\Request;
+use App\Models\Votacion;
+use Illuminate\Support\Carbon;
+    
 
 class OpcionesController extends Controller
 {
-    
+
 
     public function create($pregunta_id)
-{
-    // Asegúrate de que la pregunta exista antes de pasarla a la vista
-    $pregunta = Pregunta::findOrFail($pregunta_id);
+    {
+        // Asegúrate de que la pregunta exista antes de pasarla a la vista
+        $pregunta = Pregunta::findOrFail($pregunta_id);
 
-    return view('opciones.create', compact('pregunta'));
-}
+        return view('opciones.create', compact('pregunta'));
+    }
 
     // OpcionController.php
 
-    public function store(Request $request, Pregunta $pregunta)
+
+    
+    public function store(Request $request)
     {
-        // Validación de la opción
+        
+        // Validar que se reciban las respuestas y el residente
         $request->validate([
-            'opcion' => 'required|string|max:255',
+            'respuestas' => 'required|array', // Respuestas: [pregunta_id => opcion_id]
+            'id_usuario' => 'required|integer|exists:residentes,id', // Validar que exista el residente
         ]);
     
-        // Crear la opción y asociarla con la pregunta
-        $opcion = new Opcion();
-        $opcion->pregunta_id = $pregunta->id;
-        $opcion->opcion = $request->input('opcion');
-        $opcion->save();
+        $residenteId = $request->input('id_usuario');
+        $respuestas = $request->input('respuestas'); // Array de respuestas: [pregunta_id => opcion_id]
     
-        // Redirigir o mostrar un mensaje
-        return redirect()->route('preguntas.show', $pregunta)->with('success', 'Opción creada exitosamente.');
+        foreach ($respuestas as $preguntaId => $opcionId) {
+            // Verificar si el residente ya ha votado por esta pregunta
+            $yaVotado = Votacion::where('opcion_id', $opcionId)
+                ->where('residente_id', $residenteId)
+                ->exists();
+    
+            if (!$yaVotado) {
+                // Guardar el voto
+                Votacion::create([
+                    'opcion_id' => $opcionId,
+                    'residente_id' => $residenteId,
+                    'fecha_voto' => Carbon::now(),
+                ]);
+            }
+        }
+    
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('votaciones.index', ['id_usuario' => $residenteId])
+            ->with('success', '¡Tu voto ha sido registrado correctamente!');
     }
     
+
+
 
 
     public function edit(Opcion $opcion)
@@ -58,8 +81,11 @@ class OpcionesController extends Controller
 
     public function destroy(Opcion $opcion)
     {
+        // Eliminar la opción
         $opcion->delete();
 
-        return redirect()->route('opciones.index', $opcion->pregunta);
+        // Redirigir de vuelta con un mensaje de éxito
+        return redirect()->route('preguntas.show', $opcion->pregunta_id)
+            ->with('success', 'Opción eliminada exitosamente');
     }
 }

@@ -11,14 +11,22 @@
 
     <title>Asamblea</title>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
+        crossorigin="anonymous" />
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
-    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.0.0/signature_pad.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Agregar SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
+        integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -27,7 +35,8 @@
         <div class="page-header-icon"></div>
         <a class="navbar-brand d-none d-sm-block">Asamblea PH</a>
 
-        <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle" href="#"><i data-feather="menu"></i></button>
+        <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"
+            href="#"><i data-feather="menu"></i></button>
 
         <ul class="navbar-nav align-items-center ml-auto">
             <form method="POST" action="{{ route('logout') }}">
@@ -77,13 +86,25 @@
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Preguntas
                         </a>
-                       
-                       
+                         <a class="nav-link" href="{{ route('buscar.votar.form') }}">
+                            <div class="nav-link-icon"><i data-feather="tool"></i></div>
+                            Votar
+                        </a>
+                        <a class="nav-link" href="{{ route('votaciones.resultadosver') }}">
+                            <div class="nav-link-icon"><i data-feather="tool"></i></div>
+                            Resultados
+                        </a>
+
+
+
+
                     </div>
                 </div>
 
-                <div style="display: flex; justify-content: center; align-items: center; height: 150px; border: 1px solid #ddd; background-color: #f9f9f9;">
-                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/logo.png'))) }}" width="70" height="70" alt="Logo">
+                <div
+                    style="display: flex; justify-content: center; align-items: center; height: 150px; border: 1px solid #ddd; background-color: #f9f9f9;">
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/logo.png'))) }}"
+                        width="70" height="70" alt="Logo">
                 </div>
             </nav>
         </div>
@@ -111,7 +132,8 @@
                     <div class="row">
                         <div class="col-md-6 small">Copyright &copy; Your Website {{ now()->year }}</div>
                         <div class="col-md-6 text-sm-right small">
-                            <a href="#!">Desarrollo:</a> &middot; <a href="https://xn--oscarcaas-r6a.co/">Oscar Cañas - Juan Pablo Cañas</a>
+                            <a href="#!">Desarrollo:</a> &middot; <a href="https://xn--oscarcaas-r6a.co/">Oscar
+                                Cañas - Juan Pablo Cañas</a>
                         </div>
                     </div>
                 </div>
@@ -120,7 +142,8 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>

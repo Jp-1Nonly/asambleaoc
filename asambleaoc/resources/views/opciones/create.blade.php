@@ -13,5 +13,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Crear Opción</button>
     </form>
+  
 </div>
+<a href="{{ route('preguntas.index') }}" class="btn btn-primary">Volver a las preguntas</a>
 @endsection

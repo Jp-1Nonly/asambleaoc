@@ -14,9 +14,14 @@ class Opcion extends Model
 
     // app/Models/Opcion.php
 
-public function pregunta()
+    public function pregunta()
 {
-    return $this->belongsTo(Pregunta::class);
+    return $this->belongsTo(Pregunta::class, 'pregunta_id');
 }
 
+
+    public function opciones()
+    {
+        return $this->hasMany(Opcion::class, 'pregunta_id');
+    }
 }

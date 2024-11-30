@@ -7,16 +7,17 @@
     <table class="table mt-3">
         <thead>
             <tr>
-                <th>#</th>
+              
                 <th>Pregunta</th>
                 <th>Estado</th>
                 <th>Acciones</th>
+                
             </tr>
         </thead>
         <tbody>
             @foreach($preguntas as $pregunta)
                 <tr>
-                    <td>{{ $pregunta->id }}</td>
+                   
                     <td>{{ $pregunta->pregunta }}</td>
                     <td>{{ $pregunta->estado }}</td>
                     <td>
@@ -28,7 +29,7 @@
                             <button type="submit" class="btn btn-danger btn-xs">Eliminar</button>
                         </form>
                         <!-- Botón para acceder a la creación de opciones de esta pregunta -->
-                        <a href="{{ route('opciones.create', ['pregunta' => $pregunta->id]) }}" class="btn btn-success btn-xs">Opciones</a>
+                        <a href="{{ route('opciones.create', ['pregunta' => $pregunta->id]) }}" class="btn btn-success btn-xs"> + Opcion</a>
                         <a href="{{ route('preguntas.show', $pregunta) }}" class="btn btn-success btn-xs">Ver Opciones</a>
                     </td>
                 </tr>

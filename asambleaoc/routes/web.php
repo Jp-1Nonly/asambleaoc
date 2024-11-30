@@ -82,6 +82,10 @@ Route::middleware('auth')->group(function () {
 
     // Ruta para mostrar el formulario de creación de una nueva pregunta
     Route::get('/preguntas/create', [PreguntasController::class, 'create'])->name('preguntas.create');
+    Route::post('/buscar-apto-votar', [VotacionesController::class, 'search'])->name('buscar.apto.votar');
+    Route::get('/votaciones', [VotacionesController::class, 'index'])->name('votaciones.index');
+
+    
 
     // Ruta para almacenar una nueva pregunta
     Route::post('/preguntas', [PreguntasController::class, 'store'])->name('preguntas.store');
@@ -134,6 +138,7 @@ Route::post('preguntas/{pregunta}/opciones', [OpcionesController::class, 'store'
 
     // Ruta para crear votaciones
 
+    Route::get('/buscar-apto-votar', [VotacionesController::class, 'showFormVotar'])->name('buscar.votar.form');
 
     // Ruta para mostrar todas las votaciones
     Route::get('/votaciones', [VotacionesController::class, 'index'])->name('votaciones.index');
@@ -142,13 +147,17 @@ Route::post('preguntas/{pregunta}/opciones', [OpcionesController::class, 'store'
     Route::get('/votaciones/create', [VotacionesController::class, 'create'])->name('votaciones.create');
 
     // Ruta para almacenar una nueva votación
-    Route::post('/votaciones', [VotacionesController::class, 'store'])->name('votaciones.store');
+    Route::post('/votaciones-votar', [VotacionesController::class, 'store'])->name('votaciones.store');
 
     // Ruta para mostrar una votación específica
     Route::get('/votaciones/{votacion}', [VotacionesController::class, 'show'])->name('votaciones.show');
 
     // Ruta para eliminar una votación específica
     Route::delete('/votaciones/{votacion}', [VotacionesController::class, 'destroy'])->name('votaciones.destroy');
+
+    Route::get('/votaciones/resultados', [VotacionesController::class, 'resultados'])->name('votaciones.resultados');
+
+
 });
 
 // Rutas que requieren autenticación y verificación del correo

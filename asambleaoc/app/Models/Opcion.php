@@ -12,16 +12,10 @@ class Opcion extends Model
     protected $table = 'opciones';
     protected $fillable = ['pregunta_id', 'opcion', 'votos'];
 
-    // app/Models/Opcion.php
-
-    public function pregunta()
+    // Modelo Opcion
+public function pregunta()
 {
     return $this->belongsTo(Pregunta::class, 'pregunta_id');
 }
 
-
-    public function opciones()
-    {
-        return $this->hasMany(Opcion::class, 'pregunta_id');
-    }
 }

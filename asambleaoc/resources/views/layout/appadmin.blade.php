@@ -90,7 +90,7 @@
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Votar
                         </a>
-                        <a class="nav-link" href="{{ route('votaciones.resultadosver') }}">
+                        <a class="nav-link" href="{{ route('votaciones.cociente') }}">
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Resultados
                         </a>

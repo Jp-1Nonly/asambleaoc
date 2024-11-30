@@ -1,19 +1,40 @@
 @extends('layout.appadmin')
 
 @section('content')
-<div class="container">
+    <h1>Agregar Opciones a la Pregunta: {{ $pregunta->pregunta }}</h1>
 
-    <h1>Agregar Opción a la Pregunta: {{ $pregunta->pregunta }}</h1> <!-- Muestra la pregunta actual -->
-
-    <form action="{{ route('opciones.store', $pregunta) }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="opcion">Opción</label>
-            <input type="text" class="form-control" name="opcion" id="opcion" required>
+    <!-- Mostrar mensajes de éxito o error -->
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
-        <button type="submit" class="btn btn-primary">Crear Opción</button>
+    @endif
+
+    <!-- Formulario para agregar opciones -->
+    <form action="{{ route('opciones.store', $pregunta->id) }}" method="POST">
+        @csrf
+
+        <!-- Campo para agregar opciones -->
+        <div class="form-group">
+            <label for="opciones">Opciones</label>
+            <input type="text" name="opciones[]" class="form-control" placeholder="Escribe una opción" required>
+        </div>
+
+        <div id="opciones-extra"></div>
+
+        <button type="button" class="btn btn-secondary" id="agregar-opcion">Agregar otra opción</button>
+
+        <button type="submit" class="btn btn-primary">Guardar Opciones</button>
     </form>
-  
-</div>
-<a href="{{ route('preguntas.index') }}" class="btn btn-primary">Volver a las preguntas</a>
+
+    <!-- Script para agregar campos dinámicos -->
+    <script>
+        document.getElementById('agregar-opcion').addEventListener('click', function() {
+            var opcionesExtra = document.getElementById('opciones-extra');
+            var nuevoCampo = document.createElement('div');
+            nuevoCampo.classList.add('form-group');
+            nuevoCampo.innerHTML = '<input type="text" name="opciones[]" class="form-control" placeholder="Escribe una opción" required>';
+            opcionesExtra.appendChild(nuevoCampo);
+        });
+    </script>
 @endsection

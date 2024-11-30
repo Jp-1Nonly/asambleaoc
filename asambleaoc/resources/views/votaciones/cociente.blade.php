@@ -4,7 +4,7 @@
     <div class="container">
         <h1>Resultados de las Votaciones</h1>
 
-        @foreach ($resultados as $preguntaId => $resultadosPregunta)
+        @foreach ($resultadosOrganizados as $preguntaId => $resultadosPregunta)
             <div class="card mb-3">
                 <div class="card-header">
                     <strong>{{ $resultadosPregunta['pregunta'] }}</strong>

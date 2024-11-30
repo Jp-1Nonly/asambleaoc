@@ -85,7 +85,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/buscar-apto-votar', [VotacionesController::class, 'search'])->name('buscar.apto.votar');
     Route::get('/votaciones', [VotacionesController::class, 'index'])->name('votaciones.index');
 
-    
+
 
     // Ruta para almacenar una nueva pregunta
     Route::post('/preguntas', [PreguntasController::class, 'store'])->name('preguntas.store');
@@ -110,18 +110,22 @@ Route::middleware('auth')->group(function () {
     // Ruta para crear opciones
     Route::resource('preguntas', PreguntasController::class);
 
+    // Rutas para las opciones
+    Route::resource('opciones', OpcionesController::class);
+
+
 
     // Ruta para mostrar las opciones de una pregunta específica
     Route::get('/preguntas/{pregunta}/opciones', [OpcionesController::class, 'index'])->name('opciones.index');
 
     // Ruta para mostrar el formulario de creación de una nueva opción para una pregunta específica
-  
+
     Route::get('preguntas/{pregunta}/opciones/create', [OpcionesController::class, 'create'])->name('opciones.create');
 
     // Ruta para almacenar una nueva opción para una pregunta específica
-   // web.php
+    // web.php
 
-Route::post('preguntas/{pregunta}/opciones', [OpcionesController::class, 'store'])->name('opciones.store');
+    Route::post('preguntas/{pregunta}/opciones', [OpcionesController::class, 'store'])->name('opciones.store');
 
 
     // Ruta para mostrar el formulario de edición de una opción específica
@@ -155,9 +159,8 @@ Route::post('preguntas/{pregunta}/opciones', [OpcionesController::class, 'store'
     // Ruta para eliminar una votación específica
     Route::delete('/votaciones/{votacion}', [VotacionesController::class, 'destroy'])->name('votaciones.destroy');
 
-    Route::get('/votaciones/resultados', [VotacionesController::class, 'resultados'])->name('votaciones.resultados');
 
-
+    Route::get('/cociente', [VotacionesController::class, 'cociente'])->name('votaciones.cociente');
 });
 
 // Rutas que requieren autenticación y verificación del correo

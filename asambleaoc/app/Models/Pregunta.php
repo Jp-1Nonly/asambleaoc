@@ -14,11 +14,11 @@ class Pregunta extends Model
     ];
 
 
-
-    public function opciones()
-    {
-        return $this->hasMany(Opcion::class, 'pregunta_id');
-    }
+// Modelo Pregunta
+public function opciones()
+{
+    return $this->hasMany(Opcion::class, 'pregunta_id');
+}
 
 
 

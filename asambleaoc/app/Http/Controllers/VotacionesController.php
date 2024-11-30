@@ -8,6 +8,7 @@ use App\Models\Residente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Opcion;
 
 
 class VotacionesController extends Controller
@@ -103,7 +104,6 @@ class VotacionesController extends Controller
     }
 
 
-
     public function show(Votacion $votacion)
     {
         return view('votaciones.show', compact('votacion'));
@@ -115,13 +115,12 @@ class VotacionesController extends Controller
 
         return redirect()->route('votaciones.index');
     }
-
-    public function resultados()
+    public function cociente()
     {
         // Obtener los resultados de las votaciones
-        $resultados = Votacion::selectRaw('pregunta_id, opcion_id, COUNT(*) as total_votos')
-            ->groupBy('pregunta_id', 'opcion_id')
-            ->with('opcion.pregunta') // Cargar las preguntas con sus opciones
+        $resultados = Votacion::selectRaw('opciones.pregunta_id, opcion_id, COUNT(*) as total_votos')
+            ->join('opciones', 'votaciones.opcion_id', '=', 'opciones.id') // Unir la tabla 'opciones' con 'votaciones'
+            ->groupBy('opciones.pregunta_id', 'opciones.id') // Agrupar por pregunta_id y opcion_id
             ->get();
     
         // Organizar los resultados por pregunta
@@ -130,17 +129,24 @@ class VotacionesController extends Controller
             $pregunta = $voto->opcion->pregunta->pregunta;
             $opcion = $voto->opcion->opcion;
             $totalVotos = $voto->total_votos;
-            
+    
+            // Calcular el total de votos para la pregunta
+            $totalVotosPregunta = Votacion::join('opciones', 'votaciones.opcion_id', '=', 'opciones.id')
+                ->where('opciones.pregunta_id', $voto->pregunta_id)
+                ->count();
+    
+            // Calcular el porcentaje de votos para la opción
+            $porcentaje = ($totalVotos / $totalVotosPregunta) * 100;
+    
             // Agregar a los resultados organizados
             $resultadosOrganizados[$voto->pregunta_id]['pregunta'] = $pregunta;
             $resultadosOrganizados[$voto->pregunta_id]['opciones'][] = [
                 'opcion' => $opcion,
                 'total_votos' => $totalVotos,
-                'porcentaje' => ($totalVotos / Votacion::where('pregunta_id', $voto->pregunta_id)->count()) * 100
+                'porcentaje' => number_format($porcentaje, 2)
             ];
         }
     
-        return view('votaciones.resultados', compact('resultadosOrganizados'));
+        return view('votaciones.cociente', compact('resultadosOrganizados'));
     }
-    
 }

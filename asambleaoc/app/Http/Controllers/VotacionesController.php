@@ -149,4 +149,7 @@ class VotacionesController extends Controller
     
         return view('votaciones.cociente', compact('resultadosOrganizados'));
     }
+
+   
+    
 }

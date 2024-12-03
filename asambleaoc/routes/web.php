@@ -84,6 +84,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/preguntas/create', [PreguntasController::class, 'create'])->name('preguntas.create');
     Route::post('/buscar-apto-votar', [VotacionesController::class, 'search'])->name('buscar.apto.votar');
     Route::get('/votaciones', [VotacionesController::class, 'index'])->name('votaciones.index');
+    Route::get('/votaciones/buscar', [VotacionesController::class, 'buscar'])->name('votaciones.buscar');
+
 
 
 

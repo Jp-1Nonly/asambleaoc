@@ -37,7 +37,9 @@
 
                                 <!-- Crear opciones para esta pregunta -->
                                 <a href="{{ route('opciones.create', ['pregunta' => $pregunta->id]) }}" class="btn btn-success btn-xs">+ Opción</a>
-                             
+                                
+                                <!-- Ver opciones de la pregunta -->
+                                <a href="{{ route('preguntas.show', $pregunta) }}" class="btn btn-success btn-xs">Ver Opciones</a>
                             </td>
                         </tr>
                     @endforeach

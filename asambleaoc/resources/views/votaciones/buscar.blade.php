@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.appadmin')
 
 @section('name', 'Votar - Buscar Copropietarios Firmados')
 
@@ -12,7 +12,7 @@
                         <div class="card-header">Copropietarios Firmados - Buscar por Apartamento</div>
                         <div class="card-body">
                             <div class="sbp-preview">
-                                <div class="sbp-preview-content">
+                                   <div class="sbp-preview-content">
                                     <form action="{{ route('buscar.apto.votar') }}" method="POST">
                                         @csrf
                                         <div class="form-group">

@@ -95,12 +95,17 @@ Route::middleware('auth')->group(function () {
 
     // Ruta para mostrar el formulario de edición de una pregunta
     Route::get('/preguntas/{pregunta}/edit', [PreguntasController::class, 'edit'])->name('preguntas.edit');
-
+    
     // Ruta para actualizar una pregunta
     Route::put('/preguntas/{pregunta}', [PreguntasController::class, 'update'])->name('preguntas.update');
+    
 
     // Ruta para eliminar una pregunta
     Route::delete('/preguntas/{pregunta}', [PreguntasController::class, 'destroy'])->name('preguntas.destroy');
+
+
+   
+
 
 
 
@@ -117,6 +122,7 @@ Route::middleware('auth')->group(function () {
 
     // Ruta para mostrar las opciones de una pregunta específica
     Route::get('/preguntas/{pregunta}/opciones', [OpcionesController::class, 'index'])->name('opciones.index');
+    
 
     // Ruta para mostrar el formulario de creación de una nueva opción para una pregunta específica
 
@@ -135,7 +141,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/opciones/{opcion}', [OpcionesController::class, 'update'])->name('opciones.update');
 
     // Ruta para eliminar una opción específica
-    Route::delete('/opciones/{opcion}', [OpcionesController::class, 'destroy'])->name('opciones.destroy');
+    Route::delete('/opciones/{id}', [OpcionesController::class, 'destroy'])->name('opciones.destroy');
+
+
+
+
 
 
 

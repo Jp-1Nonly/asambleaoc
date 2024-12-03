@@ -71,14 +71,23 @@ class PreguntasController extends Controller
 
     public function update(Request $request, Pregunta $pregunta)
     {
+        // Validar los datos del formulario
         $request->validate([
             'pregunta' => 'required|string|max:255',
+            'estado' => 'required|in:Activa,Inactiva',
         ]);
 
-        $pregunta->update($request->all());
+        // Actualizar la pregunta
+        $pregunta->update([
+            'pregunta' => $request->pregunta,
+            'estado' => $request->estado,
+        ]);
 
-        return redirect()->route('preguntas.index');
+        // Redirigir a la lista de preguntas con un mensaje de éxito
+        return redirect()->route('preguntas.index')
+            ->with('success', 'La pregunta se actualizó correctamente.');
     }
+
 
     public function destroy(Pregunta $pregunta)
     {

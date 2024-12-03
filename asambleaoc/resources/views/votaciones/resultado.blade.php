@@ -1,6 +1,6 @@
-@extends('layout.appaux')
+@extends('layout.appadmin')
 
-@section('name', 'Copropietario habilitado para votar')
+@section('name', 'Resultado búsqueda para votar')
 
 @section('content')
 <div class="container-fluid mt-n10">
@@ -25,7 +25,7 @@
                                     <td>{{ $residente->tipo }}</td>
                                     <td>{{ $residente->apto }}</td>
                                     <td>
-                                        <a href="{{ route('votaciones.index', ['id_usuario' => $residente->id]) }}" class="btn btn-primary">
+                                        <a href="{{ route('votaciones.index', ['id_usuario' => $residente->id]) }}" class="btn btn-primary btn-xs">
                                             Ir a Votaciones
                                         </a>
                                     </td>
@@ -37,7 +37,10 @@
             </div>
         </div>
     @else
-        <p class="text-danger">No se encontró firma para el apartamento ingresado.</p>
+    <div class="alert alert-danger" role="alert">
+        No se encontró firma para el apartamento ingresado.
+    </div>
+    
     @endif
 </div>
 @endsection

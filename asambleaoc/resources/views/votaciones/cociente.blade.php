@@ -1,8 +1,8 @@
 @extends('layout.appadmin')
-
+@section('name', 'Resultados de las votaciones')
 @section('content')
     <div class="container">
-        <h1>Resultados de las Votaciones</h1>
+     
 
         @foreach ($resultadosOrganizados as $preguntaId => $resultadosPregunta)
             <div class="card mb-3">

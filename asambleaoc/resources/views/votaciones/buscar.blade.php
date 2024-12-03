@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('name', 'Votar - Copropietarios Firmados')
+@section('name', 'Votar - Buscar Copropietarios Firmados')
 
 
 @section('content')

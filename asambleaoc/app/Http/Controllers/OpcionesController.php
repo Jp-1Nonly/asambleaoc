@@ -8,10 +8,22 @@ use App\Models\Pregunta;
 use Illuminate\Http\Request;
 use App\Models\Votacion;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
+
     
 
 class OpcionesController extends Controller
 {
+
+    public function index($pregunta_id)
+{
+    // Obtener las opciones asociadas a la pregunta
+    $opciones = Opcion::where('pregunta_id', $pregunta_id)->get();
+
+    // Pasar las opciones a la vista
+    return redirect()->route('opciones.index', ['pregunta' => $pregunta_id]);
+
+}
 
 
     public function create($pregunta_id)
@@ -71,15 +83,25 @@ class OpcionesController extends Controller
         return redirect()->route('opciones.index', $opcion->pregunta);
     }
 
-    public function destroy(Opcion $opcion)
+    public function destroy($id)
     {
-        // Eliminar la opción
+        // Buscar la opción por id y eliminarla
+        $opcion = Opcion::findOrFail($id);
+        $pregunta_id = $opcion->pregunta_id; // Obtenemos el id de la pregunta asociada
+    
         $opcion->delete();
     
-        // Redirigir de vuelta a la vista de la pregunta que contiene la opción eliminada
-        return redirect()->route('preguntas.show', $opcion->pregunta_id)
-            ->with('success', 'Opción eliminada exitosamente');
+        // Redirigir al usuario a la página de detalles de la pregunta
+        return redirect()->route('preguntas.show', ['pregunta' => $pregunta_id])
+                         ->with('success', 'Opción eliminada correctamente.');
     }
+    
+
+    
+
+
+    
+
     
     public function show($id)
 {

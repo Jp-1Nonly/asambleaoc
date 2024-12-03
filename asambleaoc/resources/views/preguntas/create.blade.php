@@ -24,7 +24,7 @@
                                     </select>
                                 </div>
                                 
-                                <button type="submit" class="btn btn-primary mt-2 ">Crear Pregunta</button>
+                                <button type="submit" class="btn btn-primary mt-2 btn-xs">Crear Pregunta</button>
                             </form>
                         </div>
                     </div>

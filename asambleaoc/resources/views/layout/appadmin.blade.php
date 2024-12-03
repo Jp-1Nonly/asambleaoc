@@ -74,10 +74,7 @@
                             <div class="nav-link-icon"><i data-feather="filter"></i></div>
                             Quorum
                         </a>
-                        <a class="nav-link" href="{{ route('preguntas.index') }}">
-                            <div class="nav-link-icon"><i data-feather="filter"></i></div>
-                            Votaciones
-                        </a>
+                       
                         <a class="nav-link" href="{{ route('datos.index') }}">
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Configuración

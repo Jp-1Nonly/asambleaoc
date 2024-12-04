@@ -10,7 +10,8 @@
                     <strong>{{ $resultadosPregunta['pregunta'] }}</strong>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
+                    <div class="datatable table-responsive">
+                    <table class="table table-bordered table-hover" id="dataTable2" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Opción</th>
@@ -28,6 +29,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         @endforeach

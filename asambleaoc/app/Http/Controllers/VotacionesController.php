@@ -83,9 +83,16 @@ class VotacionesController extends Controller
 
     public function showFormVotar()
     {
+        // Obtener los residentes
         $residentes = Residente::whereNotNull('captura')->where('captura', '!=', '')->get();
-        return view('votaciones.buscar', compact('residentes'));
+    
+        // Contar las preguntas con estado "Activa"
+        $preguntasActivasCount = Pregunta::where('estado', 'Activa')->count();
+    
+        // Enviar tanto los residentes como el conteo de preguntas activas a la vista
+        return view('votaciones.buscar', compact('residentes', 'preguntasActivasCount'));
     }
+    
 
     public function search(Request $request)
     {

@@ -14,6 +14,7 @@ use ConsoleTVs\Charts\Facades\Charts;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Models\Dato;
+use App\Models\Votacion;
 
 
 class ResidentesController extends Controller
@@ -269,7 +270,6 @@ class ResidentesController extends Controller
     }
 
 
-
     // Procesar la búsqueda
     public function search(Request $request)
     {
@@ -301,70 +301,105 @@ class ResidentesController extends Controller
      }
 
 
-    public function generarPDF()
-    {
-        $datos = Datos::first(); // Información de la empresa
-        $residentes = Residente::all(); // Obtener todos los residentes
-        $totalResidentes = $residentes->count(); // Total de residentes
-        $residentesFirmados = $residentes->whereNotNull('captura')->count(); // Residentes firmados
-        $residentesNoFirmados = $totalResidentes - $residentesFirmados;
+     public function generarPDF()
+{
+    // Obtener la información de la empresa
+    $datos = Datos::first();
+    
+    // Obtener todos los residentes
+    $residentes = Residente::all(); 
+    $totalResidentes = $residentes->count(); 
+    $residentesFirmados = $residentes->whereNotNull('captura')->count(); 
+    $residentesNoFirmados = $totalResidentes - $residentesFirmados;
 
-        // Calcular porcentajes con 2 decimales
-        $porcentajeFirmados = $totalResidentes > 0 ? round(($residentesFirmados / $totalResidentes) * 100, 2) : 0;
-        $porcentajeNoFirmados = $totalResidentes > 0 ? round((($totalResidentes - $residentesFirmados) / $totalResidentes) * 100, 2) : 0;
+    // Calcular porcentajes
+    $porcentajeFirmados = $totalResidentes > 0 ? round(($residentesFirmados / $totalResidentes) * 100, 2) : 0;
+    $porcentajeNoFirmados = $totalResidentes > 0 ? round((($totalResidentes - $residentesFirmados) / $totalResidentes) * 100, 2) : 0;
 
-        // Crear la URL de la gráfica con porcentajes
-        $chartUrl = "https://quickchart.io/chart?c=" . urlencode(json_encode([
-            'type' => 'pie',
-            'data' => [
-                'labels' => [
-                    sprintf("Firmados: %d (%.2f%%)", $residentesFirmados, $porcentajeFirmados),
-                    sprintf("No Firmados: %d (%.2f%%)", $residentesNoFirmados, $porcentajeNoFirmados),
-                ],
-                'datasets' => [[
-                    'data' => [$residentesFirmados, $residentesNoFirmados],
-                    'backgroundColor' => ['#36A2EB', '#505163'],
-                    'borderColor' => ['#36A2EB', '#505163'],
-                    'borderWidth' => 1
-                ]]
+    // Obtener los resultados de las votaciones
+    $resultados = Votacion::selectRaw('opciones.pregunta_id, opcion_id, COUNT(*) as total_votos')
+        ->join('opciones', 'votaciones.opcion_id', '=', 'opciones.id') 
+        ->groupBy('opciones.pregunta_id', 'opciones.id')
+        ->get();
+
+    // Organizar los resultados por pregunta
+    $resultadosOrganizados = [];
+    foreach ($resultados as $voto) {
+        $pregunta = $voto->opcion->pregunta->pregunta;
+        $opcion = $voto->opcion->opcion;
+        $totalVotos = $voto->total_votos;
+
+        // Calcular el total de votos para la pregunta
+        $totalVotosPregunta = Votacion::join('opciones', 'votaciones.opcion_id', '=', 'opciones.id')
+            ->where('opciones.pregunta_id', $voto->pregunta_id)
+            ->count();
+
+        // Calcular el porcentaje de votos para la opción
+        $porcentaje = ($totalVotos / $totalVotosPregunta) * 100;
+
+        // Agregar a los resultados organizados
+        $resultadosOrganizados[$voto->pregunta_id]['pregunta'] = $pregunta;
+        $resultadosOrganizados[$voto->pregunta_id]['opciones'][] = [
+            'opcion' => $opcion,
+            'total_votos' => $totalVotos,
+            'porcentaje' => number_format($porcentaje, 2)
+        ];
+    }
+
+    // Crear la URL de la gráfica con porcentajes
+    $chartUrl = "https://quickchart.io/chart?c=" . urlencode(json_encode([
+        'type' => 'pie',
+        'data' => [
+            'labels' => [
+                sprintf("Firmados: %d (%.2f%%)", $residentesFirmados, $porcentajeFirmados),
+                sprintf("No Firmados: %d (%.2f%%)", $residentesNoFirmados, $porcentajeNoFirmados),
             ],
-            'options' => [
-                'responsive' => true,
-                'plugins' => [
-                    'datalabels' => [
-                        'display' => true,
-                        'color' => '#FFF',
-                        'font' => [
-                            'weight' => 'bold',
-                            'size' => 16
-                        ]
+            'datasets' => [[
+                'data' => [$residentesFirmados, $residentesNoFirmados],
+                'backgroundColor' => ['#36A2EB', '#505163'],
+                'borderColor' => ['#36A2EB', '#505163'],
+                'borderWidth' => 1
+            ]]
+        ],
+        'options' => [
+            'responsive' => true,
+            'plugins' => [
+                'datalabels' => [
+                    'display' => true,
+                    'color' => '#FFF',
+                    'font' => [
+                        'weight' => 'bold',
+                        'size' => 16
                     ]
                 ]
             ]
-        ]));
+        ]
+    ]));
 
-        // Descargar la imagen de la gráfica
-        $imageContent = file_get_contents($chartUrl);
-        $imagePath = storage_path('app/public/residente_graphic.png');
-        file_put_contents($imagePath, $imageContent); // Guardar la imagen localmente
+    // Descargar la imagen de la gráfica
+    $imageContent = file_get_contents($chartUrl);
+    $imagePath = storage_path('app/public/residente_graphic.png');
+    file_put_contents($imagePath, $imageContent);
 
-        // Generar el PDF usando la vista
-        $pdf = Pdf::loadView('residentes.pdf', compact(
-            'datos',
-            'residentes',
-            'totalResidentes',
-            'residentesFirmados',
-            'porcentajeFirmados',
-            'porcentajeNoFirmados',
-            'residentesNoFirmados',
-            'imagePath' // Ruta de la gráfica
-        ));
+    // Generar el PDF usando la vista y pasando los resultados de las votaciones
+    $pdf = Pdf::loadView('residentes.pdf', compact(
+        'datos',
+        'residentes',
+        'totalResidentes',
+        'residentesFirmados',
+        'porcentajeFirmados',
+        'porcentajeNoFirmados',
+        'residentesNoFirmados',
+        'imagePath', // Ruta de la gráfica
+        'resultadosOrganizados' // Resultados de las votaciones
+    ));
 
-        // Usar el campo 'evento' para el nombre del archivo
-        $evento = $datos->evento ?? 'reporte';
-        $nombreArchivo = preg_replace('/[\/\\\\]/', '-', $evento) . '.pdf'; // Reemplazar "/" y "\" por "-"
+    // Usar el campo 'evento' para el nombre del archivo
+    $evento = $datos->evento ?? 'reporte';
+    $nombreArchivo = preg_replace('/[\/\\\\]/', '-', $evento) . '.pdf';
 
-        // Retornar el PDF descargable con el nombre dinámico
-        return $pdf->download($nombreArchivo);
-    }
+    // Retornar el PDF descargable con el nombre dinámico
+    return $pdf->download($nombreArchivo);
+}
+
 }

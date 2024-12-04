@@ -12,7 +12,7 @@
                 <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                          
                             <th>Pregunta</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -21,7 +21,7 @@
                     <tbody>
                         @foreach($preguntas as $pregunta)
                             <tr>
-                                <td>{{ $pregunta->id }}</td>
+                               
                                 <td>{{ $pregunta->pregunta }}</td>
                                 <td>{{ $pregunta->estado }}</td>
                                 <td>

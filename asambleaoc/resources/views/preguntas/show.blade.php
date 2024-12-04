@@ -20,7 +20,7 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
+                                       
                                         <th>Opción</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -28,7 +28,7 @@
                                 <tbody>
                                     @foreach ($opciones as $opcion)
                                         <tr>
-                                            <td>{{ $opcion->id }}</td>
+                                           
                                             <td>{{ $opcion->opcion }}</td> <!-- Muestra la opción -->
                                             <td>
                                                 <!-- Botón para eliminar la opción -->

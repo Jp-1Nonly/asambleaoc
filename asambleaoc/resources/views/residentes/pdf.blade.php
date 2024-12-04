@@ -22,6 +22,7 @@
         }
 
         h1 {
+            font-family: 'Verdana', sans-serif;
             text-align: center;
             font-size: 14pt;
             color: #333;
@@ -48,7 +49,7 @@
         }
 
         .info_empresa .h2 {
-            font-family: 'BrixSansBlack', sans-serif;
+            font-family: 'Verdana', sans-serif;
             font-size: 16pt;
             color: #0a4661;
         }
@@ -98,7 +99,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #0061f2;
+            background-color: #1b63cf;
             color: #fff;
             text-align: center;
             font-size: 9pt;

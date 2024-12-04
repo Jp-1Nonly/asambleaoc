@@ -32,43 +32,37 @@ Route::middleware('auth')->group(function () {
 
     //Rutas redirección por roles
     Route::get('/residentes', [ResidentesController::class, 'index'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.index');
-    Route::get('/residentes-listado', [ResidentesController::class, 'indexadmin'])->middleware('checkRole:Administrador')->name('residentes.indexadmin');
-    Route::get('/residentes-aux', [ResidentesController::class, 'indexaux'])->middleware('checkRole:Auxiliar')->name('residentes.indexaux');
+    Route::get('/residentes-admin', [ResidentesController::class, 'indexadmin'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.indexadmin');
+    Route::get('/residentes-aux', [ResidentesController::class, 'indexaux'])->middleware('checkRole:Superusuario,Auxiliar')->name('residentes.indexaux');
 
     Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->middleware('checkRole:Superusuario,Auxiliar')->name('residentes.edit');
     Route::get('residentes/{id}/editadmin', [ResidentesController::class, 'editadmin'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.editadmin');
-    Route::get('residentes/{id}/editaux', [ResidentesController::class, 'editaux'])->middleware('checkRole:Superusuario,Auxiliar')->name('residentes.editaux');
     Route::put('residentes/{id}', [ResidentesController::class, 'update'])->middleware('checkRole:Superusuario,Auxiliar, Administrador')->name('residentes.update');
     Route::put('residentes/{id}/admin', [ResidentesController::class, 'updateadmin'])->middleware('checkRole:Superusuario,Administrador,Auxiliar')->name('residentes.updateadmin');
 
-    Route::get('/buscar-apto', [ResidentesController::class, 'showForm'])->middleware('checkRole:Auxiliar')->name('buscar.apto.form');
+    Route::get('/buscar-apto', [ResidentesController::class, 'showForm'])->middleware('checkRole:Superusuario,Auxiliar, Administrador')->name('buscar.apto.form');
     Route::get('/buscar-aptoadmin', [ResidentesController::class, 'showFormadmin'])->middleware('checkRole:Superusuario,Administrador')->name('buscar.apto.formadmin');
-    Route::get('/buscar-aptoaux', [ResidentesController::class, 'showFormaux'])->middleware('checkRole:Auxiliar')->name('buscar.apto.formaux');
-    Route::post('/buscar-apto', [ResidentesController::class, 'search'])->middleware('checkRole:Auxiliar')->name('buscar.apto');
-    Route::post('/buscar-aptoadmin', [ResidentesController::class, 'searchadmin'])->middleware('checkRole:Administrador')->name('buscar.aptoadmin');
-    Route::post('/buscar-aptoaux', [ResidentesController::class, 'searchaux'])->middleware('checkRole:Auxiliar')->name('buscar.aptoaux');
+    Route::post('/buscar-apto', [ResidentesController::class, 'search'])->middleware('checkRole:Superusuario,Auxiliar')->name('buscar.apto');
+    Route::post('/buscar-aptoadmin', [ResidentesController::class, 'searchadmin'])->middleware('checkRole:Superusuario,Administrador')->name('buscar.aptoadmin');
 
 
-    Route::get('residentes/estadisticas', [ResidentesController::class, 'estadisticasResidentes'])->middleware('checkRole:Superusuario')->name('residentes.estadisticas');
-    Route::get('residentes/estadisticasadmin', [ResidentesController::class, 'estadisticasResidentesadmin'])->middleware('checkRole:Administrador')->name('residentes.estadisticasadmin');
+    Route::get('residentes/estadisticas', [ResidentesController::class, 'estadisticasResidentes'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.estadisticas');
+    Route::get('residentes/estadisticasadmin', [ResidentesController::class, 'estadisticasResidentesadmin'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.estadisticasadmin');
 
     Route::get('/residentes/{id}/firmar', [ResidentesController::class, 'showSignatureForm'])->middleware('checkRole:Superusuario,Administrador', 'Auxiliar')->name('residentes.firmar');
     Route::post('/residentes/{id}/firmar', [ResidentesController::class, 'storeSignature'])->middleware('checkRole:Superusuario,Administrador', 'Auxiliar')->name('residentes.guardarFirma');
 
 
     Route::post('/upload', [ResidentesController::class, 'upload'])->middleware('checkRole:Superusuario,Administrador')->name('excel.upload');
-    Route::post('/carga', [ResidentesController::class, 'carga'])->middleware('checkRole:Administrador')->name('excel.carga');
-
 
     Route::get('/residentes/pdf', [ResidentesController::class, 'generarPDF'])->name('residentes.pdf');
     Route::get('/create-residentes', [ResidentesController::class, 'create'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.create');
-    Route::get('/create-residentesadmin', [ResidentesController::class, 'createadmin'])->middleware('checkRole:Administrador')->name('residentes.createadmin');
 
 
 
     Route::resource('datos', DatosController::class);
-    Route::get('datos', [DatosController::class, 'index'])->middleware('checkRole:Administrador')->name('datos.index');
-    Route::get('datos/create', [DatosController::class, 'create'])->middleware('checkRole:Administrador')->name('datos.create');
+    Route::get('datos', [DatosController::class, 'index'])->middleware('checkRole:Superusuario,Administrador')->name('datos.index');
+    Route::get('datos/create', [DatosController::class, 'create'])->middleware('checkRole:Superusuario,Administrador')->name('datos.create');
 
 
     // Sin acceso

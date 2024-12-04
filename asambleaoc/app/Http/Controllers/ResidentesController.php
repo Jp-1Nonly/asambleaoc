@@ -51,7 +51,7 @@ class ResidentesController extends Controller
             }
         }
 
-        return view('residentes.indexadmin', compact('residentes', 'evento'));
+        return view('residentes.listado', compact('residentes', 'evento'));
     }
 
     public function indexaux()
@@ -89,6 +89,14 @@ class ResidentesController extends Controller
 
         // Retornar la vista de edición con los datos del residente
         return view('residentes.firmaradmin', compact('residente'));
+    }
+    public function editaux(string $id)
+    {
+        // Obtener el residente a editar
+        $residente = residente::findOrFail($id);
+
+        // Retornar la vista de edición con los datos del residente
+        return view('residentes.firmaraux', compact('residente'));
     }
 
 
@@ -144,7 +152,7 @@ class ResidentesController extends Controller
         // Guardar los cambios en la base de datos
         $residente->save();
     
-        return redirect()->route('residentes.indexadmin')->with('success', 'Residente actualizado exitosamente.');
+        return redirect()->route('residentes.listado')->with('success', 'Residente actualizado exitosamente.');
     }
     
     
@@ -153,39 +161,53 @@ class ResidentesController extends Controller
     //RUTA PARA EL AUXILIAR
     public function update(Request $request, $id)
     {
-        // Validar los datos
-        $request->validate([
+         // Validar los datos
+         $request->validate([
             'nombre' => 'required|string',
             'tipo' => 'required|string',
             'apto' => 'required|string',
             'coeficiente' => 'required|string',
-            'captura' => 'nullable|string',
+            'captura' => 'nullable|string', // Campo para la firma (captura)
+            'photo' => 'nullable|string', // Campo para la foto
         ]);
-
+    
         // Buscar el residente por su ID
         $residente = residente::findOrFail($id);
-
-        // Actualizar los datos del residente
+    
+        // Actualizar los datos básicos
         $residente->nombre = $request->input('nombre');
         $residente->tipo = $request->input('tipo');
         $residente->apto = $request->input('apto');
         $residente->coeficiente = $request->input('coeficiente');
-
-        // Procesar la captura de foto, si se envió
+    
+        // Procesar la captura de firma (campo 'captura'), si se envió
         if ($request->filled('captura')) {
-            $imagenBase64 = $request->input('captura');
-
-            // Asegúrate de que el base64 es válido y solo tiene la parte de datos de imagen
-            if (strpos($imagenBase64, 'data:image/png;base64,') === 0) {
-                $imagenCodificada = str_replace('data:image/png;base64,', '', $imagenBase64);
+            $firmaBase64 = $request->input('captura');
+    
+            // Verificar que la firma sea válida
+            if (strpos($firmaBase64, 'data:image/png;base64,') === 0) {
+                // Eliminar la cabecera 'data:image/png;base64,' de la cadena base64
+                $firmaCodificada = str_replace('data:image/png;base64,', '', $firmaBase64);
+                $residente->captura = $firmaCodificada; // Asignar la firma codificada
             } else {
-                return redirect()->back()->withErrors(['msg' => 'Formato de imagen no válido.']);
+                return redirect()->back()->withErrors(['msg' => 'Formato de firma no válido.']);
             }
-
-            // Almacena la imagen en formato base64 en el campo 'captura'
-            $residente->captura = $imagenCodificada;
         }
-
+    
+        // Procesar la captura de foto, si se envió
+        if ($request->filled('photo')) {
+            $photoBase64 = $request->input('photo');
+    
+            // Verificar que la foto sea válida
+            if (strpos($photoBase64, 'data:image/png;base64,') === 0) {
+                // Eliminar la cabecera 'data:image/png;base64,' de la cadena base64
+                $photoCodificada = str_replace('data:image/png;base64,', '', $photoBase64);
+                $residente->photo = $photoCodificada; // Asignar la foto codificada
+            } else {
+                return redirect()->back()->withErrors(['msg' => 'Formato de foto no válido.']);
+            }
+        }
+    
         // Guardar los cambios en la base de datos
         $residente->save();
 
@@ -202,6 +224,13 @@ class ResidentesController extends Controller
     {
         return view('residentes.create');
     }
+    public function createadmin()
+    {
+        return view('residentes.createadmin');
+    }
+
+
+    
 
     public function upload(Request $request)
     {
@@ -233,6 +262,39 @@ class ResidentesController extends Controller
             return redirect()->route('residentes.index')->with('success', 'Datos importados correctamente.');
         } catch (\Exception $e) {
             return redirect()->route('residentes.index')->with('error', 'Error al procesar el archivo: ' . $e->getMessage());
+        }
+    }
+
+    public function carga(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        try {
+            $file = $request->file('file');
+            $spreadsheet = IOFactory::load($file->getPathname());
+            $sheet = $spreadsheet->getActiveSheet();
+            $rows = $sheet->toArray(null, true, true, true);
+
+            foreach ($rows as $index => $row) {
+                if ($index === 1) continue;
+
+                $data = [
+                    'nombre' => $row['A'] ?? '',
+                    'tipo' => $row['B'] ?? '',
+                    'apto' => $row['C'] ?? '',
+                    'coeficiente' => is_numeric($row['D'] ?? 0) ? $row['D'] : 0,
+                ];
+
+                if (!empty($data['nombre']) && !empty($data['apto'])) {
+                    Residente::create($data);
+                }
+            }
+
+            return redirect()->route('residentes.indexadmin')->with('success', 'Datos importados correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->route('residentes.indexadmin')->with('error', 'Error al procesar el archivo: ' . $e->getMessage());
         }
     }
 
@@ -268,6 +330,10 @@ class ResidentesController extends Controller
     {
         return view('residentes.buscaradmin');
     }
+    public function showFormaux()
+    {
+        return view('residentes.buscaraux');
+    }
 
 
     // Procesar la búsqueda
@@ -298,6 +364,20 @@ class ResidentesController extends Controller
  
          // Redirigir a la vista 'residentes.resultado' con los residentes encontrados
          return view('residentes.resultadoadmin', compact('residentes'));
+     }
+
+     public function searchaux(Request $request)
+     {
+         // Validar que se ingrese un número de apartamento como cadena (varchar)
+         $request->validate([
+             'apto' => 'required|string|max:255', // Aceptar texto, sin límite numérico
+         ]);
+ 
+         // Buscar todos los residentes por el número de apartamento
+         $residentes = Residente::where('apto', $request->input('apto'))->get();
+ 
+         // Redirigir a la vista 'residentes.resultado' con los residentes encontrados
+         return view('residentes.resultadoaux', compact('residentes'));
      }
 
 

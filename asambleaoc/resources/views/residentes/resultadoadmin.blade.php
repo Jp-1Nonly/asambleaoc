@@ -65,7 +65,10 @@
             </div>
         </div>
     @else
-        <p class="text-danger">No se encontró ningún residente para el apartamento ingresado.</p>
+    <div class="alert alert-danger" role="alert">
+        No se encontró ningún copropietario para el apartamento ingresado.
+    </div>
+    
     @endif
 </div>
 @endsection

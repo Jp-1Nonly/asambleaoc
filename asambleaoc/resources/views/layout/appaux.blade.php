@@ -58,9 +58,9 @@
                             <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
                             Listado
                         </a>
-                        <a class="nav-link" href="{{ route('buscar.apto.form') }}">
+                        <a class="nav-link" href="{{ route('buscar.apto.formaux') }}">
                             <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
-                            Buscar Copropietario
+                            Procesar Firma
                         </a>
                         
                     </div>

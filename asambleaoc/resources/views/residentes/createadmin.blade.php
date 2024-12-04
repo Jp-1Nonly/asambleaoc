@@ -1,6 +1,6 @@
 <!-- resources/views/upload.blade.php -->
 
-@extends('layout.app')
+@extends('layout.appadmin')
 
 @section('name')
     Subir Excel

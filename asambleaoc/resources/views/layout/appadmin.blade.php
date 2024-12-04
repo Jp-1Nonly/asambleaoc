@@ -64,9 +64,9 @@
                         </a>
                         <a class="nav-link" href="{{ route('buscar.apto.formadmin') }}">
                             <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
-                            Buscar Copropietario
+                            Procesar Firma
                         </a>
-                        <a class="nav-link" href="{{ route('residentes.create') }}">
+                        <a class="nav-link" href="{{ route('residentes.createadmin') }}">
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Cargar Excel
                         </a>

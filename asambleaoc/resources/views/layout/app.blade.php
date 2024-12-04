@@ -66,7 +66,7 @@
                         </a>
                         <a class="nav-link" href="{{ route('buscar.apto.form') }}">
                             <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
-                            Buscar Copropietario
+                            Procesar Firma
                         </a>
                         <a class="nav-link" href="{{ route('residentes.create') }}">
                             <div class="nav-link-icon"><i data-feather="tool"></i></i></div>

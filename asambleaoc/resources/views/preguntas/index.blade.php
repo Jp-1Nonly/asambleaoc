@@ -25,18 +25,19 @@
                                 <td>{{ $pregunta->pregunta }}</td>
                                 <td>{{ $pregunta->estado }}</td>
                                 <td>
-                                    <!-- Ver detalles de la pregunta -->
-                                    <a href="{{ route('preguntas.show', $pregunta) }}" class="btn btn-info btn-xs">Ver</a>
-                                    
+                                                                      
                                     <!-- Editar la pregunta -->
                                     <a href="{{ route('preguntas.edit', $pregunta) }}" class="btn btn-warning btn-xs">Editar</a>
                                     
                                     <!-- Eliminar la pregunta con SweetAlert -->
-                                    <form action="{{ route('preguntas.destroy', $pregunta) }}" method="POST" style="display:inline;" class="delete-form">
+                                    <form action="{{ route('preguntas.destroy', $pregunta->id) }}" method="POST" style="display:inline;" class="delete-form">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-xs">Eliminar</button>
                                     </form>
+
+                                     <!-- Ver detalles de la pregunta -->
+                                     <a href="{{ route('preguntas.show', $pregunta) }}" class="btn btn-secondary btn-xs">Ver opciones</a>
 
                                     <!-- Crear opciones para esta pregunta -->
                                     <a href="{{ route('opciones.create', ['pregunta' => $pregunta->id]) }}" class="btn btn-success btn-xs">Agregar Opción</a>
@@ -51,48 +52,40 @@
     </div>
 </div>
 
-@section('scripts')
-<!-- Incluir SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    // Función para asignar eventos a los formularios de eliminación
-    document.addEventListener('DOMContentLoaded', function() {
-        // Asignar el evento de confirmación de eliminación a los formularios
-        const assignEvents = () => {
-            document.querySelectorAll('.delete-form').forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevenir el envío del formulario
+    <!-- Incluir SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Confirmación antes de eliminar
+        $('.delete-form').submit(function(e) {
+            if (!confirm('¿Estás seguro de que deseas eliminar esta opción?')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+    
+    <script>
+        // Configurar el evento de confirmación en los formularios de eliminación
+        document.querySelectorAll('.delete-form').forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevenir el envío del formulario
+                const swalConfirm = Swal.fire({
+                    toast: true,
+                    title: '¿Estás seguro?',
+                    text: 'Esta pregunta será eliminada permanentemente.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                });
 
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: 'Esta pregunta será eliminada permanentemente.',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Sí, eliminar',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            form.submit(); // Enviar el formulario si se confirma
-                        }
-                    });
+                swalConfirm.then((result) => {
+                    if (result.isConfirmed) {
+                        // Si el usuario confirma, enviar el formulario
+                        form.submit();
+                    }
                 });
             });
-        };
-
-        // Asignar eventos al cargar el DOM
-        assignEvents();
-
-        // Reasignar eventos al actualizar la tabla (si usas DataTables)
-        $('#dataTable').on('draw.dt', function() {
-            assignEvents();
         });
-
-        // Inicializar DataTables
-        $('#dataTable').DataTable();
-    });
-</script>
-@endsection
-
+    </script>
 @endsection

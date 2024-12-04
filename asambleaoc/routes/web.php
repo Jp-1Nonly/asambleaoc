@@ -106,12 +106,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/preguntas/{pregunta}', [PreguntasController::class, 'destroy'])->name('preguntas.destroy');
 
 
-   
-
-
-
-
-
 
 
     // Ruta para crear opciones

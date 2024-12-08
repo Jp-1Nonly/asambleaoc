@@ -1,17 +1,16 @@
-@extends('layout.appadmin')
+@extends('layout.appvotar')
 
 @php
     $primeraPregunta = $preguntasActivas->first()->pregunta ?? '';
 @endphp
 
-@section('name', 'Votar por: '.$primeraPregunta)
-
+@section('name', 'Votar por: ' . $primeraPregunta)
 
 @section('content')
     <div class="container">
 
         <!-- Mostrar mensajes de éxito y error -->
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
@@ -21,7 +20,7 @@
             </script>
         @endif
 
-        @if(session('error'))
+        @if (session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
@@ -32,7 +31,7 @@
         @endif
 
         <!-- Mostrar el formulario de votación solo si no se ha mostrado un mensaje de error o éxito -->
-        @if(!session('success') && !session('error'))
+        @if (!session('success') && !session('error'))
             <div class="card mb-4">
                 <div class="card-header">
                     <strong>Solamente podrá votar una vez</strong>
@@ -47,7 +46,7 @@
                                 $pregunta = $preguntas->first(); // Accede a la primera fila para obtener la información de la pregunta
                             @endphp
                             <div class="form-group">
-                             <!--   <label>{{ $pregunta->pregunta }}</label> -->
+                                <!--   <label>{{ $pregunta->pregunta }}</label> -->
                                 <select name="respuestas[{{ $pregunta->pregunta_id }}]" class="form-control" required>
                                     <option value="">Seleccione una respuesta</option>
                                     @foreach ($preguntas as $opcion)
@@ -57,11 +56,34 @@
                             </div>
                         @endforeach
 
-                        <button type="submit" class="btn btn-success btn-xs">Enviar Voto</button>
+                        <button type="submit" class="btn btn-danger btn-xs" id="submit-vote">Enviar Voto</button>
                     </form>
                 </div>
             </div>
         @endif
 
     </div>
+
+    <!-- Agregar SweetAlert confirmación -->
+    <script>
+        document.getElementById('submit-vote').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevenir el envío inmediato del formulario
+
+            Swal.fire({
+                toast: true,
+                title: '¿Estás seguro?',
+                text: "Una vez enviado, no podrás cambiar tu voto.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, votar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma, enviar el formulario
+                    document.getElementById('voting-form').submit();
+                }
+            });
+        });
+    </script>
 @endsection

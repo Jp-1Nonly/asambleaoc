@@ -20,27 +20,29 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.0.0/signature_pad.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Agregar SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Para los QR de las votaciones-->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
         integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
+
 <body class="nav-fixed">
     <nav class="topnav navbar navbar-expand shadow navbar-light bg-white" id="sidenavAccordion">
         <div class="page-header-icon"></div>
         <a class="navbar-brand d-none d-sm-block">Asamblea PH</a>
 
-        <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle" href="#"><i data-feather="menu"></i></button>
+        <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"
+            href="#"><i data-feather="menu"></i></button>
 
         <ul class="navbar-nav align-items-center ml-auto">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-link">
-                    <span> Salir</span>
-                </a>
-            </form>
+           
         </ul>
     </nav>
 
@@ -49,31 +51,30 @@
             <nav class="sidenav shadow-right sidenav-light">
                 <div class="sidenav-menu">
                     <div class="nav accordion" id="accordionSidenav">
-                        <div class="sidenav-menu-heading">Rol:
-                            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->role : 'Copropietario' }}<br>Usuario:
-                            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}
+                        <div class="sidenav-menu-heading">
+                           
                         </div>
-                      
-                       
-                        <a class="nav-link" href="{{ route('residentes.indexaux') }}">
-                            <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
-                            Listado
-                        </a>
-                        <a class="nav-link" href="{{ route('buscar.apto.formaux') }}">
-                            <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
-                            Procesar Firma
+                        
+                        <a class="nav-link" href="{{ route('buscar.votar.form') }}">
+                            <div class="nav-link-icon"><i data-feather="tool"></i></div>
+                            Votar
                         </a>
                         
+
+
+
+
                     </div>
                 </div>
-                <div style="display: flex; justify-content: center; align-items: center; height: 150px; border: 1px solid #ddd; background-color: #f9f9f9;">
-                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/logo.png'))) }}" width="70" height="70" alt="Logo">
-                </div>
-                
-                
 
+                <div
+                    style="display: flex; justify-content: center; align-items: center; height: 150px; border: 1px solid #ddd; background-color: #f9f9f9;">
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/logo.png'))) }}"
+                        width="70" height="70" alt="Logo">
+                </div>
             </nav>
         </div>
+
         <div id="layoutSidenav_content">
             <main>
                 <div class="page-header pb-10 page-header-dark bg-gradient-primary-to-secondary">
@@ -91,14 +92,14 @@
                     @yield('content')
                 </div>
             </main>
+
             <footer class="footer mt-auto footer-light">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 small">Copyright &copy; Your Website {{ now()->year }}</div>
                         <div class="col-md-6 text-sm-right small">
-                            <a href="#!">Desarrollo:</a>
-                            &middot;
-                            <a href="https://xn--oscarcaas-r6a.co/">Oscar Cañas - Juan Pablo Cañas</a>
+                            <a href="#!">Desarrollo:</a> &middot; <a href="https://xn--oscarcaas-r6a.co/">Oscar
+                                Cañas - Juan Pablo Cañas</a>
                         </div>
                     </div>
                 </div>
@@ -106,13 +107,6 @@
         </div>
     </div>
 
-
-    @section('content')
-        <!-- Tu contenido aquí -->
-    @endsection
-
-
-    <!-- Librerías externas (CDNs) -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
@@ -120,16 +114,11 @@
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 
-    <!-- Archivos locales -->
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('assets/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/demo/chart-bar-demo.js') }}"></script>
     <script src="{{ asset('assets/demo/datatables-demo.js') }}"></script>
-    <!-- Bootstrap CSS -->
-    <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
 </body>
 
 </html>

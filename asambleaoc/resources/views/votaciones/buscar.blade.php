@@ -1,4 +1,4 @@
-@extends('layout.appadmin')
+@extends('layout.appvotar')
 
 @section('name', 'Votar - Buscar Copropietarios Firmados')
 

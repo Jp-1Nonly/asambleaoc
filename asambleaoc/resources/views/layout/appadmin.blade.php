@@ -22,6 +22,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Agregar SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Para los QR de las votaciones-->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css"
@@ -58,6 +61,7 @@
                             {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->role : 'Copropietario' }}<br>Usuario:
                             {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}
                         </div>
+                        
                         <a class="nav-link" href="{{ route('residentes.indexadmin') }}">
                             <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
                             Listado
@@ -83,9 +87,13 @@
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Preguntas
                         </a>
-                         <a class="nav-link" href="{{ route('buscar.votar.form') }}">
+                        <a class="nav-link" href="{{ route('buscar.votar.form') }}">
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>
                             Votar
+                        </a>
+                        <a class="nav-link" href="{{ route('buscar.qr') }}">
+                            <div class="nav-link-icon"><i data-feather="tool"></i></div>
+                            Generar QR
                         </a>
                         <a class="nav-link" href="{{ route('votaciones.cociente') }}">
                             <div class="nav-link-icon"><i data-feather="tool"></i></div>

@@ -31,8 +31,11 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     //Rutas redirección por roles
+    //Admnistrador
     Route::get('/residentes', [ResidentesController::class, 'index'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.index');
     Route::get('/residentes-listado', [ResidentesController::class, 'indexadmin'])->middleware('checkRole:Administrador')->name('residentes.indexadmin');
+
+
     Route::get('/residentes-aux', [ResidentesController::class, 'indexaux'])->middleware('checkRole:Auxiliar')->name('residentes.indexaux');
 
     Route::get('residentes/{id}/edit', [ResidentesController::class, 'edit'])->middleware('checkRole:Superusuario,Auxiliar')->name('residentes.edit');
@@ -72,7 +75,6 @@ Route::middleware('auth')->group(function () {
 
 
     // Sin acceso
-
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::delete('residentes/{id}', [ResidentesController::class, 'destroy'])->name('residentes.destroy');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -87,8 +89,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/preguntas', [PreguntasController::class, 'index'])->name('preguntas.index');
 
     // Ruta para mostrar el formulario de creación de una nueva pregunta
-    Route::get('/preguntas/create', [PreguntasController::class, 'create'])->name('preguntas.create');
+    Route::get('/preguntas/create', [PreguntasController::class, 'create'])->middleware('checkRole:Administrador')->name('preguntas.create');
+    
+    Route::get('/qr', [VotacionesController::class, 'qr'])->name('buscar.qr');
+
     Route::post('/buscar-apto-votar', [VotacionesController::class, 'search'])->name('buscar.apto.votar');
+    
     Route::get('/votaciones', [VotacionesController::class, 'index'])->name('votaciones.index');
     Route::get('/votaciones/buscar', [VotacionesController::class, 'buscar'])->name('votaciones.buscar');
 

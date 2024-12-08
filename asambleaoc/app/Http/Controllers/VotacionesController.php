@@ -43,6 +43,12 @@ class VotacionesController extends Controller
         return view('votaciones.create', compact('preguntas'));
     }
 
+    public function qr()
+    {
+       
+        return view('votaciones.qr');
+    }
+
 
     public function store(Request $request)
     {
@@ -115,6 +121,7 @@ class VotacionesController extends Controller
     {
         return view('votaciones.show', compact('votacion'));
     }
+   
 
     public function destroy(Votacion $votacion)
     {

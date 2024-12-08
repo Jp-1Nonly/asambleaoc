@@ -30,7 +30,7 @@
                                     <td>{{ $residente->coeficiente }}</td>
                                     <td>
                                         @if ($residente->captura)
-                                        <span class="badge bg-danger text-white">Firma exitosa</span>
+                                        <img src="data:image/png;base64,{{ $residente->captura }}" alt="Foto del Residente" style="max-width: 80px;"/>
                                            
                                         @else
                                             Sin firmar

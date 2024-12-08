@@ -152,7 +152,7 @@ class ResidentesController extends Controller
         // Guardar los cambios en la base de datos
         $residente->save();
     
-        return redirect()->route('residentes.listado')->with('success', 'Residente actualizado exitosamente.');
+        return redirect()->route('residentes.indexadmin')->with('success', 'Residente actualizado exitosamente.');
     }
     
     

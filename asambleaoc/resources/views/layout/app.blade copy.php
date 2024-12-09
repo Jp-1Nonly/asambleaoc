@@ -37,51 +37,63 @@
         <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"
             href="#"><i data-feather="menu"></i></button>
 
-            <ul class="navbar-nav align-items-center ml-auto">
-                <li class="nav-item dropdown no-caret mr-3 dropdown-user">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownUserImage" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="dropdown-user-details-name">
-                            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->role : 'Copropietario' }}
-                        </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
-                        <h6 class="dropdown-header d-flex align-items-center">
-                            
-                            <div class="dropdown-user-details">                            
-                                <div class="dropdown-user-details-email">
-                                    {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}
-                                </div>
-                            </div>
-                        </h6>
-                        <div class="dropdown-divider"></div>
-                      
-                        <div class="dropdown-item">
-                            <form method="POST" action="{{ route('logout') }}" class="mb-0">
-                                @csrf
-                                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-link d-flex align-items-center">
-                                    <i class="fa-solid fa-right-from-bracket"></i>
-                                    <span class="ml-2">Salir</span>
-                                </a>
-                            </form>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+        <ul class="navbar-nav align-items-center ml-auto">
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-link">
+                    <span> Salir</span>
+                </a>
+            </form>
+
+        </ul>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sidenav shadow-right sidenav-light">
                 <div class="sidenav-menu">
                     <div class="nav accordion" id="accordionSidenav">
-                       
-                      
+                        <div class="sidenav-menu-heading">Rol:
+                            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->role : 'Copropietario' }}<br>Usuario:
+                            {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}
+                        </div>
+
                         <div class="sidenav-menu-heading">Administrar</div>
                         <a class="nav-link" href="{{ route('residentes.index') }}">
                             <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
-                            Generar Informe
+                            Listado
                         </a>
-
+  <!--                      <a class="nav-link" href="{{ route('buscar.apto.form') }}">
+                            <div class="nav-link-icon"><i data-feather="bar-chart"></i></div>
+                            Procesar Firma
+                        </a>
+                        <a class="nav-link" href="{{ route('residentes.create') }}">
+                            <div class="nav-link-icon"><i data-feather="tool"></i></i></div>
+                            Cargar Excel
+                        </a>
+                        <a class="nav-link" href="{{ route('residentes.estadisticas') }}">
+                            <div class="nav-link-icon"><i data-feather="filter"></i></div>
+                            Quorum
+                        </a>
+                        <a class="nav-link" href="{{ route('datos.index') }}">
+                            <div class="nav-link-icon"><i data-feather="tool"></i></div>
+                            Configuración
+                        </a>
+                        <a class="nav-link" href="{{ route('votaciones.cociente') }}">
+                            <div class="nav-link-icon"><i data-feather="tool"></i></div>
+                            Resultados
+                        </a>
+                      
                        
+                    </div>
+                </div> -->
+                <div
+                    style="display: flex; justify-content: center; align-items: center; height: 150px; border: 1px solid #ddd; background-color: #f9f9f9;">
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/logo.png'))) }}"
+                        width="70" height="70" alt="Logo">
+                </div>
+
             </nav>
         </div>
         <div id="layoutSidenav_content">

@@ -42,14 +42,15 @@ Route::middleware('auth')->group(function () {
     Route::get('residentes/{id}/editadmin', [ResidentesController::class, 'editadmin'])->middleware('checkRole:Superusuario,Administrador')->name('residentes.editadmin');
     Route::get('residentes/{id}/editaux', [ResidentesController::class, 'editaux'])->middleware('checkRole:Superusuario,Auxiliar')->name('residentes.editaux');
     Route::put('residentes/{id}', [ResidentesController::class, 'update'])->middleware('checkRole:Superusuario,Auxiliar, Administrador')->name('residentes.update');
-    Route::put('residentes/{id}/admin', [ResidentesController::class, 'updateadmin'])->middleware('checkRole:Superusuario,Administrador,Auxiliar')->name('residentes.updateadmin');
+    Route::put('residentes/{id}/admin', [ResidentesController::class, 'updateadmin'])->middleware('checkRole:Administrador')->name('residentes.updateadmin');
+    Route::put('residentes/{id}/aux', [ResidentesController::class, 'updateaux'])->middleware('checkRole:Auxiliar')->name('residentes.updateaux');
 
     Route::get('/buscar-apto', [ResidentesController::class, 'showForm'])->middleware('checkRole:Auxiliar')->name('buscar.apto.form');
     Route::get('/buscar-aptoadmin', [ResidentesController::class, 'showFormadmin'])->middleware('checkRole:Superusuario,Administrador')->name('buscar.apto.formadmin');
     Route::get('/buscar-aptoaux', [ResidentesController::class, 'showFormaux'])->middleware('checkRole:Auxiliar')->name('buscar.apto.formaux');
     Route::post('/buscar-apto', [ResidentesController::class, 'search'])->middleware('checkRole:Auxiliar')->name('buscar.apto');
     Route::post('/buscar-aptoadmin', [ResidentesController::class, 'searchadmin'])->middleware('checkRole:Administrador')->name('buscar.aptoadmin');
-    Route::post('/buscar-aptoaux', [ResidentesController::class, 'searchaux'])->middleware('checkRole:Auxiliar')->name('buscar.aptoaux');
+    Route::post('/buscar-aptoaux', [ResidentesController::class, 'buscaraux'])->middleware('checkRole:Auxiliar')->name('buscar.aptoaux');
 
 
     Route::get('residentes/estadisticas', [ResidentesController::class, 'estadisticasResidentes'])->middleware('checkRole:Superusuario')->name('residentes.estadisticas');

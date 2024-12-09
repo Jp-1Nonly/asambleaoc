@@ -18,7 +18,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('residentes.updateadmin', $residente->id) }}" method="POST"
+                    <form action="{{ route('residentes.updateaux', $residente->id) }}" method="POST"
                         class="cmxform form-horizontal tasi-form" id="commentForm">
                         @csrf
                         @method('PUT')
@@ -106,7 +106,7 @@
                                 <button class="btn btn-success btn-xs waves-effect waves-light mr-1" type="submit"><i
                                         class="mdi mdi-content-save-all"></i> Enviar</button>
                                 <button class="btn btn-danger btn-xs waves-effect" type="button"
-                                    onclick="window.location='{{ route('residentes.index') }}'"><i
+                                    onclick="window.location='{{ route('residentes.indexaux') }}'"><i
                                         class="mdi mdi-close-box-outline"></i> Cancelar</button>
                             </div>
                         </div>

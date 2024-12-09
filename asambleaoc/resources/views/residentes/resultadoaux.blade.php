@@ -55,7 +55,7 @@
                                                 </label>
                                             </div>
                                             
-                                            <a href="{{ route('residentes.edit', $residente->id) }}" class="btn btn-success btn-xs mt-2" onclick="return document.getElementById('consentimiento{{ $residente->id }}').checked;">
+                                            <a href="{{ route('residentes.editaux', $residente->id) }}" class="btn btn-success btn-xs mt-2" onclick="return document.getElementById('consentimiento{{ $residente->id }}').checked;">
                                                 Firmar
                                             </a>
                                         @endif

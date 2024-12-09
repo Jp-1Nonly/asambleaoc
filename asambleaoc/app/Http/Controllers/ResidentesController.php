@@ -154,6 +154,62 @@ class ResidentesController extends Controller
     
         return redirect()->route('residentes.indexadmin')->with('success', 'Residente actualizado exitosamente.');
     }
+
+
+    public function updateaux(Request $request, $id)
+    {
+        // Validar los datos
+        $request->validate([
+            'nombre' => 'required|string',
+            'tipo' => 'required|string',
+            'apto' => 'required|string',
+            'coeficiente' => 'required|string',
+            'captura' => 'nullable|string', // Campo para la firma (captura)
+            'photo' => 'nullable|string', // Campo para la foto
+        ]);
+    
+        // Buscar el residente por su ID
+        $residente = residente::findOrFail($id);
+    
+        // Actualizar los datos básicos
+        $residente->nombre = $request->input('nombre');
+        $residente->tipo = $request->input('tipo');
+        $residente->apto = $request->input('apto');
+        $residente->coeficiente = $request->input('coeficiente');
+    
+        // Procesar la captura de firma (campo 'captura'), si se envió
+        if ($request->filled('captura')) {
+            $firmaBase64 = $request->input('captura');
+    
+            // Verificar que la firma sea válida
+            if (strpos($firmaBase64, 'data:image/png;base64,') === 0) {
+                // Eliminar la cabecera 'data:image/png;base64,' de la cadena base64
+                $firmaCodificada = str_replace('data:image/png;base64,', '', $firmaBase64);
+                $residente->captura = $firmaCodificada; // Asignar la firma codificada
+            } else {
+                return redirect()->back()->withErrors(['msg' => 'Formato de firma no válido.']);
+            }
+        }
+    
+        // Procesar la captura de foto, si se envió
+        if ($request->filled('photo')) {
+            $photoBase64 = $request->input('photo');
+    
+            // Verificar que la foto sea válida
+            if (strpos($photoBase64, 'data:image/png;base64,') === 0) {
+                // Eliminar la cabecera 'data:image/png;base64,' de la cadena base64
+                $photoCodificada = str_replace('data:image/png;base64,', '', $photoBase64);
+                $residente->photo = $photoCodificada; // Asignar la foto codificada
+            } else {
+                return redirect()->back()->withErrors(['msg' => 'Formato de foto no válido.']);
+            }
+        }
+    
+        // Guardar los cambios en la base de datos
+        $residente->save();
+    
+        return redirect()->route('residentes.indexaux')->with('success', 'Residente actualizado exitosamente.');
+    }
     
     
     
@@ -366,7 +422,7 @@ class ResidentesController extends Controller
          return view('residentes.resultadoadmin', compact('residentes'));
      }
 
-     public function searchaux(Request $request)
+     public function buscaraux(Request $request)
      {
          // Validar que se ingrese un número de apartamento como cadena (varchar)
          $request->validate([

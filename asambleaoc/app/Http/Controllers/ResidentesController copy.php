@@ -454,10 +454,9 @@ class ResidentesController extends Controller
 
     // Obtener los resultados de las votaciones
     $resultados = Votacion::selectRaw('opciones.pregunta_id, opcion_id, COUNT(*) as total_votos')
-    ->join('opciones', 'votaciones.opcion_id', '=', 'opciones.id')
-    ->groupBy('opciones.pregunta_id', 'opciones.id', 'votaciones.opcion_id')  // Añadir 'votaciones.opcion_id'
-    ->get();
-
+        ->join('opciones', 'votaciones.opcion_id', '=', 'opciones.id') 
+        ->groupBy('opciones.pregunta_id', 'opciones.id')
+        ->get();
 
     // Organizar los resultados por pregunta
     $resultadosOrganizados = [];

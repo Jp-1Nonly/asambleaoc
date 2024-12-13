@@ -42,7 +42,17 @@
         </button>
         
         <ul class="navbar-nav align-items-center ml-auto">
+            <div class="dropdown-item">
+                <form method="POST" action="{{ route('logout') }}" class="mb-0">
+                    @csrf
+                    <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-link d-flex align-items-center">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="ml-2">Salir</span>
+                    </a>
+                </form>
+            </div>
             <li class="nav-item dropdown no-caret mr-3 dropdown-user">
+               
                 <a class="nav-link dropdown-toggle" id="navbarDropdownUserImage" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="dropdown-user-details-name">
                         {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->role : 'Copropietario' }}

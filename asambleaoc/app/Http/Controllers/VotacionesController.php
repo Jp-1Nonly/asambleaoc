@@ -45,7 +45,7 @@ class VotacionesController extends Controller
 
     public function qr()
     {
-       
+
         return view('votaciones.qr');
     }
 
@@ -91,14 +91,14 @@ class VotacionesController extends Controller
     {
         // Obtener los residentes
         $residentes = Residente::whereNotNull('captura')->where('captura', '!=', '')->get();
-    
+
         // Contar las preguntas con estado "Activa"
         $preguntasActivasCount = Pregunta::where('estado', 'Activa')->count();
-    
+
         // Enviar tanto los residentes como el conteo de preguntas activas a la vista
         return view('votaciones.buscar', compact('residentes', 'preguntasActivasCount'));
     }
-    
+
 
     public function search(Request $request)
     {
@@ -121,7 +121,7 @@ class VotacionesController extends Controller
     {
         return view('votaciones.show', compact('votacion'));
     }
-   
+
 
     public function destroy(Votacion $votacion)
     {
@@ -129,41 +129,53 @@ class VotacionesController extends Controller
 
         return redirect()->route('votaciones.index');
     }
+    
     public function cociente()
     {
         // Obtener los resultados de las votaciones
         $resultados = Votacion::selectRaw('opciones.pregunta_id, opcion_id, COUNT(*) as total_votos')
-            ->join('opciones', 'votaciones.opcion_id', '=', 'opciones.id') // Unir la tabla 'opciones' con 'votaciones'
-            ->groupBy('opciones.pregunta_id', 'opciones.id') // Agrupar por pregunta_id y opcion_id
+            ->join('opciones', 'votaciones.opcion_id', '=', 'opciones.id')
+            ->groupBy('opciones.pregunta_id', 'opciones.id')
             ->get();
-    
+
         // Organizar los resultados por pregunta
         $resultadosOrganizados = [];
         foreach ($resultados as $voto) {
             $pregunta = $voto->opcion->pregunta->pregunta;
             $opcion = $voto->opcion->opcion;
             $totalVotos = $voto->total_votos;
-    
+
             // Calcular el total de votos para la pregunta
             $totalVotosPregunta = Votacion::join('opciones', 'votaciones.opcion_id', '=', 'opciones.id')
                 ->where('opciones.pregunta_id', $voto->pregunta_id)
                 ->count();
-    
+
             // Calcular el porcentaje de votos para la opción
             $porcentaje = ($totalVotos / $totalVotosPregunta) * 100;
-    
+
+            // Obtener la lista de residentes que votaron por esta opción
+            $residentes = Votacion::where('opcion_id', $voto->opcion_id)
+            ->with(['residente', 'opcion']) // Asegúrate de tener las relaciones 'residente' y 'opcion' en el modelo Votacion
+            ->get()
+            ->map(function ($registro) {
+                return [
+                    'nombre' => $registro->residente->nombre,
+                    'apto' => $registro->residente->apto,
+                    'opcion_votada' => $registro->opcion->opcion,
+                ];
+            });
+        
+
             // Agregar a los resultados organizados
             $resultadosOrganizados[$voto->pregunta_id]['pregunta'] = $pregunta;
             $resultadosOrganizados[$voto->pregunta_id]['opciones'][] = [
                 'opcion' => $opcion,
                 'total_votos' => $totalVotos,
-                'porcentaje' => number_format($porcentaje, 2)
+                'porcentaje' => number_format($porcentaje, 2),
+                'residentes' => $residentes, // Agregar lista de residentes
             ];
         }
-    
+
         return view('votaciones.cociente', compact('resultadosOrganizados'));
     }
-
-   
-    
 }

@@ -15,10 +15,14 @@ class Votacion extends Model
     public function opcion()
     {
         return $this->belongsTo(Opcion::class, 'opcion_id');
+      
     }
     
     public function residente()
-    {
-        return $this->belongsTo(Residente::class);
-    }
+{
+    return $this->belongsTo(Residente::class, 'residente_id');
 }
+
+
+}
+

@@ -454,10 +454,9 @@ class ResidentesController extends Controller
 
     // Obtener los resultados de las votaciones
     $resultados = Votacion::selectRaw('opciones.pregunta_id, opcion_id, COUNT(*) as total_votos')
-    ->join('opciones', 'votaciones.opcion_id', '=', 'opciones.id')
-    ->groupBy('opciones.pregunta_id', 'opciones.id', 'votaciones.opcion_id')  // Añadir 'votaciones.opcion_id'
-    ->get();
-
+        ->join('opciones', 'votaciones.opcion_id', '=', 'opciones.id')
+        ->groupBy('opciones.pregunta_id', 'opciones.id', 'votaciones.opcion_id')  // Añadir 'votaciones.opcion_id'
+        ->get();
 
     // Organizar los resultados por pregunta
     $resultadosOrganizados = [];
@@ -474,12 +473,25 @@ class ResidentesController extends Controller
         // Calcular el porcentaje de votos para la opción
         $porcentaje = ($totalVotos / $totalVotosPregunta) * 100;
 
+        // Obtener la lista de residentes que votaron por esta opción
+        $residentesVotaron = Votacion::where('opcion_id', $voto->opcion_id)
+            ->with(['residente', 'opcion']) // Asegúrate de tener las relaciones 'residente' y 'opcion' en el modelo Votacion
+            ->get()
+            ->map(function ($registro) {
+                return [
+                    'nombre' => $registro->residente->nombre,
+                    'apto' => $registro->residente->apto,
+                    'opcion_votada' => $registro->opcion->opcion,
+                ];
+            });
+
         // Agregar a los resultados organizados
         $resultadosOrganizados[$voto->pregunta_id]['pregunta'] = $pregunta;
         $resultadosOrganizados[$voto->pregunta_id]['opciones'][] = [
             'opcion' => $opcion,
             'total_votos' => $totalVotos,
-            'porcentaje' => number_format($porcentaje, 2)
+            'porcentaje' => number_format($porcentaje, 2),
+            'residentes_votaron' => $residentesVotaron,
         ];
     }
 
@@ -496,7 +508,7 @@ class ResidentesController extends Controller
                 'backgroundColor' => ['#36A2EB', '#505163'],
                 'borderColor' => ['#36A2EB', '#505163'],
                 'borderWidth' => 1
-            ]]
+            ]],
         ],
         'options' => [
             'responsive' => true,
@@ -538,5 +550,6 @@ class ResidentesController extends Controller
     // Retornar el PDF descargable con el nombre dinámico
     return $pdf->download($nombreArchivo);
 }
+
 
 }

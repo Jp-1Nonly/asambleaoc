@@ -17,6 +17,7 @@
                                 <th>Opción</th>
                                 <th>Votos</th>
                                 <th>Porcentaje</th>
+                                <th>Residentes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -25,9 +26,25 @@
                                     <td>{{ $resultado['opcion'] }}</td>
                                     <td>{{ $resultado['total_votos'] }}</td>
                                     <td>{{ number_format($resultado['porcentaje'], 2) }}%</td>
+                                    <td>
+                                        <ul>
+                                            @if (!empty($resultado['residentes']))
+                                                @foreach ($resultado['residentes'] as $residente)
+                                                    <li>
+                                                        {{ $residente['nombre'] }} (Apto: {{ $residente['apto'] }}) 
+                                                        - Votó por: {{ $residente['opcion_votada'] }}
+                                                    </li>
+                                                @endforeach
+                                            @else
+                                                <li>No hay residentes que hayan votado en esta opción.</li>
+                                            @endif
+                                        </ul>
+                                        
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
+                        
                     </table>
                     </div>
                 </div>

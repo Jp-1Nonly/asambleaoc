@@ -19,4 +19,9 @@ class Residente extends Model
         'captura',
         'photo',
     ];
+
+    public function votaciones()
+    {
+        return $this->hasMany(Votacion::class, 'residente_id');
+    }
 }

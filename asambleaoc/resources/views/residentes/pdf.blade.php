@@ -185,7 +185,7 @@
                         </td>
                         <td style="text-align: center;">
                             @if ($residente->photo)
-                                <img src="data:image/png;base64,{{ $residente->photo }}" alt="Firma del Residente"
+                                <img src="data:image/png;base64,{{ $residente->photo }}" alt="Foto del Residente"
                                     style="max-width: 80px; display: block; margin: 0 auto;" />
                             @endif
                         </td>
@@ -215,37 +215,44 @@
         </div>
     </div>
 
-<!-- Agregar la clase page-break para forzar el salto de página -->
-<div class="page-break">
-    <div class="container" style="margin: 60px 20px 20px;">
-        <h1 style="text-align: center; font-size: 14pt; color: #333; margin: 15px 0;">Resultados de las Votaciones</h1><br>
-        
-        @foreach ($resultadosOrganizados as $preguntaId => $preguntaData)
-            <p style="font-size: 9pt; font-weight: bold;">{{ $preguntaData['pregunta'] }}</p>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border-radius: 10px; overflow: hidden; border: 1px solid #ddd;">
-                <thead>
-                    <tr style="font-size: 10pt; text-align: center;">
-                        <th>Opción</th>
-                        <th>Total de Votos</th>
-                        <th>Porcentaje</th>
-                    </tr>
-                </thead>
-                <tbody style="font-size: 9pt;">
-                    @foreach ($preguntaData['opciones'] as $opcion)
-                        <tr>
-                            <td style="padding: 8px; text-align: left;">{{ $opcion['opcion'] }}</td>
-                            <td style="padding: 8px; text-align: left;">{{ $opcion['total_votos'] }}</td>
-                            <td style="padding: 8px; text-align: left;">{{ $opcion['porcentaje'] }}%</td>
+    <!-- Agregar la clase page-break para forzar el salto de página -->
+    <div class="page-break">
+        <div class="container" style="margin: 60px 20px 20px;">
+            <h1 style="text-align: center; font-size: 14pt; color: #333; margin: 15px 0;">Resultados de las Votaciones</h1><br>
+    
+            @foreach ($resultadosOrganizados as $preguntaId => $preguntaData)
+                <p style="font-size: 9pt; font-weight: bold;">{{ $preguntaData['pregunta'] }}</p>
+               
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border-radius: 10px; overflow: hidden; border: 1px solid #ddd;">
+                    <thead>
+                        <tr style="font-size: 10pt; text-align: center; background-color: #f8f8f8;">
+                            <th>Opción</th>
+                            <th>Total de Votos</th>
+                            <th>Porcentaje</th>
+                            <th>Copropietarios que votaron</th> <!-- Nueva columna -->
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endforeach
+                    </thead>
+                    <tbody style="font-size: 9pt;">
+                        @foreach ($preguntaData['opciones'] as $opcion)
+                            <tr>
+                                <td style="text-align: center; border: 1px solid #ddd;">{{ $opcion['opcion'] }}</td>
+                                <td style="text-align: center; border: 1px solid #ddd;">{{ $opcion['total_votos'] }}</td>
+                                <td style="text-align: center; border: 1px solid #ddd;">{{ $opcion['porcentaje'] }}%</td>
+                                <td style="border: 1px solid #ddd;">
+                                    <ul style="margin: 0; padding: 0 10px; list-style: none;">
+                                        @foreach ($opcion['residentes_votaron'] as $residente)
+                                            <li>(Apto: {{ $residente['apto'] }}) {{ $residente['nombre'] }} </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endforeach
+        </div>
     </div>
-</div>
-
-
-
+    
     <!-- Pie de página -->
     <footer>
         Empresa Liseth & Co. Página generada automáticamente el {{ \Carbon\Carbon::now()->format('d/m/Y') }}.

@@ -31,8 +31,8 @@
                                             @if (!empty($resultado['residentes']))
                                                 @foreach ($resultado['residentes'] as $residente)
                                                     <li>
-                                                        {{ $residente['nombre'] }} (Apto: {{ $residente['apto'] }}) 
-                                                        - Votó por: {{ $residente['opcion_votada'] }}
+                                                        (Apto: {{ $residente['apto'] }}) {{ $residente['nombre'] }}
+                                                        
                                                     </li>
                                                 @endforeach
                                             @else

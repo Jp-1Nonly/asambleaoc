@@ -227,7 +227,7 @@
                     <thead>
                         <tr style="font-size: 10pt; text-align: center; background-color: #f8f8f8;">
                             <th>Opción</th>
-                            <th>Total de Votos</th>
+                            <th>Votos</th>
                             <th>Porcentaje</th>
                             <th>Copropietarios que votaron</th> <!-- Nueva columna -->
                         </tr>

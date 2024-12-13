@@ -17,7 +17,7 @@
                                 <th>Opción</th>
                                 <th>Votos</th>
                                 <th>Porcentaje</th>
-                                <th>Residentes</th>
+                                <th>Copropietarios que votaron</th>
                             </tr>
                         </thead>
                         <tbody>

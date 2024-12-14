@@ -117,10 +117,10 @@ class VotacionesController extends Controller
     }
 
 
-    public function show(Votacion $votacion)
-    {
-        return view('votaciones.show', compact('votacion'));
-    }
+   // public function show(Votacion $votacion)
+    //{
+      //  return view('votaciones.show', compact('votacion'));
+    //}
 
 
     public function destroy(Votacion $votacion)

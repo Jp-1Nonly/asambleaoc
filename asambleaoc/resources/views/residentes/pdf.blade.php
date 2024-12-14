@@ -24,7 +24,7 @@
         h1 {
             font-family: 'Verdana', sans-serif;
             text-align: center;
-            font-size: 14pt;
+            font-size: 13pt;
             color: #333;
             margin: 15px 0;
         }
@@ -76,12 +76,12 @@
 
         th {
             background-color: #f2f2f2;
-            font-size: 10pt;
+            font-size: 9pt;
             text-align: center;
         }
 
         td {
-            font-size: 9pt;
+            font-size: 8pt;
         }
 
         img {
@@ -240,10 +240,11 @@
                                 <td style="text-align: center; border: 1px solid #ddd;">{{ $opcion['porcentaje'] }}%</td>
                                 <td style="border: 1px solid #ddd;">
                                     <ul style="margin: 0; padding: 0 10px; list-style: none;">
-                                        @foreach ($opcion['residentes_votaron'] as $residente)
-                                            <li>(Apto: {{ $residente['apto'] }}) {{ $residente['nombre'] }} </li>
+                                        @foreach (collect($opcion['residentes_votaron'])->sortBy('apto') as $residente)
+                                            <li>Apto: {{ $residente['apto'] }} - {{ $residente['nombre'] }}</li>
                                         @endforeach
                                     </ul>
+                                    
                                 </td>
                             </tr>
                         @endforeach

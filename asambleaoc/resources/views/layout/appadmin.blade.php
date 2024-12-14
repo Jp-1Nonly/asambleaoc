@@ -42,44 +42,35 @@
         </button>
         
         <ul class="navbar-nav align-items-center ml-auto">
-            <div class="dropdown-item">
-                <form method="POST" action="{{ route('logout') }}" class="mb-0">
-                    @csrf
-                    <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-link d-flex align-items-center">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span class="ml-2">Salir</span>
-                    </a>
-                </form>
-            </div>
             <li class="nav-item dropdown no-caret mr-3 dropdown-user">
-               
-                <a class="nav-link dropdown-toggle" id="navbarDropdownUserImage" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div class="dropdown-user-details-name">
-                        {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->role : 'Copropietario' }}
-                    </div>
+                <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage"
+                    href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false"><img class="img-fluid"
+                     src="{{ asset('img/logo.png') }}" alt="Logo" width="60" height="60">
                 </a>
-                <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
+                <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up"
+                    aria-labelledby="navbarDropdownUserImage">
                     <h6 class="dropdown-header d-flex align-items-center">
                         
-                        <div class="dropdown-user-details">                            
-                            <div class="dropdown-user-details-email">
-                                {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}
-                            </div>
+                        <div class="dropdown-user-details">
+                            <div class="dropdown-user-details-name"> {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->role : 'Copropietario' }}</div><br>
+                            <div class="dropdown-user-details-email"> {{ \Illuminate\Support\Facades\Auth::check() ? \Illuminate\Support\Facades\Auth::user()->name : 'Copropietario' }}</div>
                         </div>
                     </h6>
                     <div class="dropdown-divider"></div>
-                  
                     <div class="dropdown-item">
                         <form method="POST" action="{{ route('logout') }}" class="mb-0">
                             @csrf
                             <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" class="menu-link d-flex align-items-center">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                                <span class="ml-2">Salir</span>
+                                <i class="fa-solid fa-right-from-bracket" style="color: darkslategray"></i>
+                                <span class="ml-2"  style="color: darkslategray">Salir</span>
                             </a>
                         </form>
                     </div>
                 </div>
             </li>
+            
+           
         </ul>
     </nav>
 

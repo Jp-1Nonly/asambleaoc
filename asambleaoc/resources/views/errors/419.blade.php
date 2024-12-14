@@ -22,7 +22,7 @@
                             <div class="text-center mt-5">
                                 <div class="error mx-auto" data-text="419">419</div>
                                 <p class="lead text-gray-800 mb-5">Página Expirada</p>
-                                <p class="text-gray-500 mb-0">Tratas de ingresar a una página que no existe</p><br>
+                                <p class="text-gray-500 mb-0">Demasiado tiempo sin actividad</p><br>
                                 <a href="javascript:history.back();">← Volver a la página anterior</a>
 
                             </div>
